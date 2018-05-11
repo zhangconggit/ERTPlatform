@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<main>
+  <step name="Login" chanesename="病历表">
+	<auto> 0</auto>
+	<intotime> 0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation></navigation>
+  </step>
+</main>

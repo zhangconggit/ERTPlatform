@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f244cdb5ec1cb4d41ac5f6530d716e9f
+labels:
+- Animation
+- Material
+- ShaderProperty
+- Materialmotion
+- Uv
+- Flipbook
+- Offset
+- Scale
+- Materialproperty
+- Property
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

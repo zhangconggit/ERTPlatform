@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>progressControl</name>
+    </assembly>
+    <members>
+        <member name="T:progressControl.StepCollection">
+            <summary>
+            步骤数据集合
+            </summary>
+        </member>
+        <member name="F:progressControl.StepCollection.stepObject">
+            <summary>
+            步骤预设体
+            </summary>
+        </member>
+        <member name="F:progressControl.StepCollection.stepDesc">
+            <summary>
+            每个步骤描述，可根据描述控制步骤效果
+            </summary>
+        </member>
+        <member name="F:progressControl.StepCollection.isLastOne">
+            <summary>
+            标记是否是最后一个图标
+            </summary>
+        </member>
+        <member name="T:progressControl.CProgressControl">
+            <summary>
+            进度图片控制
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.stepInfo">
+            <summary>
+            大步骤图标数据链表
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.stepSourceSprite">
+            <summary>
+            步骤初始图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.stepHightLightSprite">
+            <summary>
+            步骤高亮图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.arrowSourceSprite">
+            <summary>
+            箭头初始图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.arrowHightLightSprite">
+            <summary>
+            箭头高亮图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.dotSourceSprite">
+            <summary>
+            圆点初始图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.dotHightLightSprite">
+            <summary>
+            圆点高亮图标
+            </summary>
+        </member>
+        <member name="F:progressControl.CProgressControl.sparkCoroutine">
+            <summary>
+            协程
+            </summary>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepHightLightByIndex(System.Int32)">
+            <summary>
+            通过索引设置步骤图标高亮
+            </summary>
+            <param name="pStepIndex">步骤索引</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepSourceByIndex(System.Int32)">
+            <summary>
+            通过索引设置步骤图标还原
+            </summary>
+            <param name="pStepIndex">步骤索引</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepHightLightByDesc(System.String)">
+            <summary>
+            通过步骤描述设置步骤图标高亮
+            </summary>
+            <param name="pDesc">步骤描述</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepSourceByDesc(System.String)">
+            <summary>
+            通过步骤描述设置步骤图标还原
+            </summary>
+            <param name="pDesc">步骤描述</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.twinklingStepIconByIndex(System.Int32)">
+            <summary>
+            通过索引开始闪烁图标
+            </summary>
+            <param name="pStepIndex">步骤索引</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.twinklingStepIconByDesc(System.String)">
+            <summary>
+            通过描述开始闪烁图标
+            </summary>
+            <param name="pStepDesc">步骤描述</param>
+        </member>
+        <member name="M:progressControl.CProgressControl.stopTwinklingStepIcon">
+            <summary>
+            停止闪烁
+            </summary>
+        </member>
+        <member name="M:progressControl.CProgressControl.twinklingIcon(progressControl.StepCollection,System.Single)">
+            <summary>
+            闪烁图标
+            </summary>
+            <param name="sc"></param>
+            <param name="pTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepCollectionSource(progressControl.StepCollection)">
+            <summary>
+            设置步骤还原
+            </summary>
+            <param name="ts"></param>
+        </member>
+        <member name="M:progressControl.CProgressControl.setStepCollectionHightLight(progressControl.StepCollection)">
+            <summary>
+            设置步骤高亮
+            </summary>
+            <param name="ts"></param>
+        </member>
+        <member name="M:progressControl.CProgressControl.judgeStepIsHightLightByIndex(System.Int32)">
+            <summary>
+            通过索引判断步骤是否高亮
+            </summary>
+            <param name="pStepIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:progressControl.CProgressControl.judgeStepIsHightLightByDesc(System.String)">
+            <summary>
+            通过索引判断步骤是否高亮
+            </summary>
+            <param name="pStepDesc">步骤描述</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
