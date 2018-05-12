@@ -21,16 +21,20 @@ public class soloItem : MonoBehaviour {
     /// </summary>
     public bool bIsOk = true;
     public GameObject target;
-    bool NoErrorMode = false;
-    Vector3 startModePos;
-    Vector3 startTextPos;
+    [HideInInspector]
+    public bool NoErrorMode = false;
+    Vector3 startModePos = Vector3.zero;
+    Vector3 startTextPos = Vector3.zero;
     [HideInInspector]
     public float speed = 1;
     public Camera LookAtCamera = null;
     // Use this for initialization
     void Start () {
-        startModePos = target.transform.position;
-        startTextPos = transform.position;
+        if (LookAtCamera==null)
+        {
+            LookAtCamera = Camera.main;
+        }
+       
         okIcon.SetActive(false);
         errorIcon.SetActive(false);
     }
@@ -44,8 +48,17 @@ public class soloItem : MonoBehaviour {
     /// </summary>
     public void Init()
     {
-        transform.position = startTextPos;
-        target.transform.position = startModePos;
+        if(startModePos == Vector3.zero && startTextPos == Vector3.zero)
+        {
+            startModePos = target.transform.position;
+            startTextPos = transform.position;
+        }
+        else
+        {
+            transform.position = startTextPos;
+            target.transform.position = startModePos;
+        }
+
         okIcon.SetActive(false);
         errorIcon.SetActive(false);
         bSelected = false;
@@ -92,11 +105,13 @@ public class soloItem : MonoBehaviour {
             }
             target.transform.position = startModePos + _dir;
             gameObject.transform.position = startTextPos + _textDir;
-            UpdateImage();
+            if(!NoErrorMode)
+                UpdateImage();
         }
         else
         {
-            UpdateImage();
+            if (!NoErrorMode)
+                UpdateImage();
             while (Vector3.Dot(target.transform.position - startModePos, _dir) > 0)
             {
                 yield return 0;

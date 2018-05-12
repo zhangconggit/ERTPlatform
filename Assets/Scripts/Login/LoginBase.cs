@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Diagnostics;
 using UnityEngine.SceneManagement;
+using CFramework;
 
 public class LoginBase : MonoBehaviour
 {
@@ -126,18 +127,18 @@ public class LoginBase : MonoBehaviour
                 if (re == "succeed")
                 {
                     startCheckLogin = false;
-                    GlobalClass.user.chineseName = IDataComponentDLL.IDataComponent.GetInstance().getPcAccountChineseName();
+                    CGlobal.user.chineseName = IDataComponentDLL.IDataComponent.GetInstance().getPcAccountChineseName();
                     loadingImage.gameObject.SetActive(false);
                     StopCoroutine(loadingCoroutine);
                     StepManager.Instance.SetStepEnd();
                     IDataComponentDLL.IDataComponent.GetInstance().sendQueryTrainID(CGrade.GradeTableId);
                     if (Web)
                     {
-                        GlobalClass.user.status = UserStatus.user;
+                        CGlobal.user.status = UserStatus.user;
                     }
                     else
                     {
-                        GlobalClass.user.status = UserStatus.server;
+                        CGlobal.user.status = UserStatus.server;
                     }
                 }
                 else if (re == "")
@@ -201,28 +202,28 @@ public class LoginBase : MonoBehaviour
 #if owner
         if(userName.text == "misrobot" && userPassword.text == "123456")
         {
-            GlobalClass.user.accountName = userName.text;
-            GlobalClass.user.chineseName = "misrobot";
-            GlobalClass.user.isLogin = true;
-            GlobalClass.user.sex = "v";
-            GlobalClass.user.status = UserStatus.server;
+            CGlobal.user.accountName = userName.text;
+            CGlobal.user.chineseName = "misrobot";
+            CGlobal.user.isLogin = true;
+            CGlobal.user.sex = "v";
+            CGlobal.user.status = UserStatus.server;
             UnityEngine.SceneManagement.SceneManager.LoadScene("ModelChoice");
         }
 #else
         loadingImage.gameObject.SetActive(true);
         loadingCoroutine = StartCoroutine(showLoading(true));
         GameObject.Find("Canvas/loginBt").GetComponent<Button>().enabled = false;
-        GlobalClass.user.accountName = userName.text;
-        GlobalClass.user.sex = "v";
+        CGlobal.user.accountName = userName.text;
+        CGlobal.user.sex = "v";
             IDataComponentDLL.IDataComponent.GetInstance().sendLoginData(userName.text, userPassword.text);
         startCheckLogin = true;
 #endif
     }
     public void login_button_null()
     {
-        GlobalClass.user.chineseName = "访客";
+        CGlobal.user.chineseName = "访客";
         StepManager.Instance.SetStepEnd();
-        GlobalClass.user.status = UserStatus.visitor;
+        CGlobal.user.status = UserStatus.visitor;
     }
     public void reStart()
     {

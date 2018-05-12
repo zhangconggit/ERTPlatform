@@ -260,40 +260,7 @@ public class CGrade
         return _bl;
         //string str = id;
     }
-    ///// <summary>
-    ///// 录入成绩ID
-    ///// </summary>
-    ///// <param name="id">成绩ID</param>
-    //public static void Input(List<string> ids)
-    //{
-    //    if (ids[0] == null)
-    //        return;
-    //    bool bl = false;
-    //    if (!checkExist(GradeList, ids[0]))
-    //    {
-    //        bl = true;
-    //    }
-
-    //    foreach (string id in ids)
-    //    {
-    //        string str = id;
-    //        GradeListAll.Add(str);
-    //        if (bl)
-    //        {
-    //            //插入一条评分
-    //            GradeList.Add(str);
-    //            DicGradeList[str] = GradingRule[id];
-    //            //记录得分
-    //            ResultsScore += GradingRule[id];
-    //            if (id.Substring(9, 1) != "0")
-    //            {
-    //                if (GlobalClass.sys != SYS.web)
-    //                    IDataComponentDLL.IDataComponent.GetInstance().printScreen(id);
-    //            }
-    //        }
-
-    //    }
-    //}
+    
     /// <summary>
     /// 计算取得成绩
     /// </summary>
@@ -334,25 +301,6 @@ public class CGrade
     /// <param name="name"></param>
     public static void addVideoStep(string name)
     {
-        if (videoStepNumber != -1)
-        {
-            if (VedioStep.Count > 0 && VedioStep[VedioStep.Count - 1] == name)
-            {
-                try
-                {
-                    IDataComponentDLL.IDataComponent.GetInstance().setStepEndTime(videoStepNumber);//为此步骤添加结束时间
-                }
-                catch 
-                {
-                }
-                videoStepNumber = -1;
-            }
-        }
-        else if (!VedioStep.Contains(name))
-        {
-            VedioStep.Add(name);
-            videoStepNumber = IDataComponentDLL.IDataComponent.GetInstance().createStepAndTime(name);//创建步骤信息
-        }
     }
     public static void commitScore()
     {
@@ -365,46 +313,7 @@ public class CGrade
         {
             IDataComponent.GetInstance().addScoreItem(str, DicGradeList[str]);
         }
-        //IDataComponent.GetInstance().addStartTime(OperatorStartTime);
-        //IDataComponent.GetInstance().addEndTime(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
         StepManager.Instance.DebugOperationSeq();//打印顺序错误信息
-        Commit.isCommit = true;
-        //if (GlobalClass.sys != SYS.web)
-        //    IDataComponentDLL.IDataComponent.GetInstance().finishRecordVideo();
+        CsScoreManager.Instance.CommitScore();
     }
-    public static void commitAllScore()
-    {
-        ScoreSaveInfo score = new ScoreSaveInfo();
-        if(GlobalClass.g_OperatorSchema == OperatorSchema.examModel)
-            score.OperationType = "考试模式";//添加模式判断（练习模式，考试模式）
-        else if (GlobalClass.g_OperatorSchema == OperatorSchema.practiceModel)
-            score.OperationType = "练习模式";
-        score.ScoreSheetID = GradeTableId;
-        score.OperationTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        int ti = GlobalClass.getOperatorTime();
-        string text = ((ti / 3600) > 9 ? "" : "0") + ti / 3600 + ":" + (((ti % 3600) / 60) > 9 ? "" : "0") + (ti % 3600) / 60 + ":" + ((ti % 60) > 9 ? "" : "0") + ti % 60;
-        score.UseTime = text;//使用时间
-        score.ScoreIDList = GradeList;//成绩ID列表 
-        //commitSysScore(score)
-        if (true)
-        {
-            //NetDataManager.Instence.PadGradeList.Clear();
-            //UnityEngine.SceneManagement.SceneManager.LoadScene("Grade_Show");
-        }
-        else
-        {
-            Debug.Log("id is :" + score.UserID);
-        }
-    }
-
-}
-
-internal class ScoreSaveInfo
-{
-    public string OperationType;
-    public string ScoreSheetID;
-    public string UserID;
-    public string OperationTime;
-    public string UseTime;
-    public List<string> ScoreIDList;
 }

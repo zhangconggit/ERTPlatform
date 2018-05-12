@@ -20,12 +20,10 @@ public class MainApp : MonoBehaviour {
  
     void Awake()
     {
-        Debug.Log("MainU3d Aweke");
         if (Instance == null)
         {
 
-            Debug.Log("MainU3d Instance is null");
-            GlobalClass.sWebInitWait = true;
+            Debug.Log("MainU3d Instance");
             Instance = this;
             DontDestroyOnLoad(gameObject);
             gameObject.name = "Main";
@@ -34,7 +32,7 @@ public class MainApp : MonoBehaviour {
         }
         else
         {
-            if (!GlobalClass.stIsLoading && GameObject.Find("Canvas").transform.FindChild("WaitLoading") != null)
+            if (GameObject.Find("Canvas").transform.FindChild("WaitLoading") != null)
             {
                 GameObject.Find("Canvas").transform.FindChild("WaitLoading").gameObject.SetActive(false);
             }
@@ -59,7 +57,6 @@ public class MainApp : MonoBehaviour {
             });
             while (isLoadXml)
                 System.Threading.Thread.Sleep(10);
-            GlobalClass.sWebInitWait = false;
 #endif
             CGrade.LoadGradingRuleFromLocalXml();
 
@@ -69,45 +66,12 @@ public class MainApp : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(GlobalClass.stIsLoading != isLoading)
-        {
-            isLoading = GlobalClass.stIsLoading;
-            if(isLoading)
-            {
-                if (GameObject.Find("Canvas").transform.FindChild("WaitLoading") != null)
-                {
-                    loadUI = GameObject.Find("Canvas").transform.FindChild("WaitLoading").gameObject;
-                    loadUI.SetActive(true);
-                }
-                else
-                    loadUI = null;
-            }
-            else
-            {
-                if (loadUI != null)
-                {
-                    loadUI = GameObject.Find("Canvas").transform.FindChild("WaitLoading").gameObject;
-                    loadUI.SetActive(false);
-                }
-            }
-        }
+
         if(isLoading)
         {
             return;
         }
-        if (GlobalClass.sMainIsWait)
-            return;
-        g_Step.Working();//一直工作 处理随机事件
-        if (g_Step.getStep() == "" && GlobalClass.operatorIsEnd)
-            return;
-
-        //MouseCtrl.getInstance().Update();//鼠标触发事件
-
-        g_Step.Update();//执行步骤内容
-        if (g_Step.getStep() != "" && (g_Step.CurrStepState == StepStatus.did || g_Step.CurrStepState == StepStatus.errorDid))
-        {
-            Debug.Log(g_Step.setStep(""));
-        }
+        StepManager.Instance.Update();//执行步骤内容
 	}
     void OnGUI()
     {
@@ -137,27 +101,11 @@ public class MainApp : MonoBehaviour {
     void CreateModelFile(string path, byte[] info, int length)
     {
         //文件流信息
-        //StreamWriter sw;
         FileStream fs = new System.IO.FileStream(path, FileMode.Create, FileAccess.Write);
-        //System.IO.Stream sw;
-        //System.IO.FileInfo t = new System.IO.FileInfo(path);
-        //if (!t.Exists)
-        //{
-        //    t.Delete();
-            
-        //}
+
         fs.Write(info, 0, length);
         fs.Close();
         fs.Dispose();
-        //如果此文件不存在则创建
-        //sw = t.Create(); 
-        ////以行的形式写入信息
-        ////sw.WriteLine(info);
-        //sw.Write(info, 0, length);
-        ////关闭流
-        //sw.Close();
-        ////销毁流
-        //sw.Dispose();
     }
 #endif
 }

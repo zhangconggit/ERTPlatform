@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using CFramework;
 
 public class DB // : MonoBehaviour
 {
@@ -45,33 +46,33 @@ public class DB // : MonoBehaviour
     /// 取得病例列表 
     /// </summary>
     /// <returns></returns>
-    public List<MedicalRecord> getMedicalRecords()
+    public List<_CLASS_MedicalRecord> getMedicalRecords()
     {
-        List<MedicalRecord> result = new List<MedicalRecord>();
+        List<_CLASS_MedicalRecord> result = new List<_CLASS_MedicalRecord>();
         string sql = "select * from MedicalRecord";
         //SqliteDataReader reader = conn.ExecuteQuery(sql);
         XMLDB.XMLDataReader reader = conn.ExecuteQuery(sql);
         while (reader.Read())
         {
-            MedicalRecord item = new MedicalRecord();
-            item.ID = reader.GetInt(reader.GetOrdinal("ID"));
-            item.AD = reader.GetString(reader.GetOrdinal("AD"));
+            _CLASS_MedicalRecord item = new _CLASS_MedicalRecord();
+            item.id = reader.GetInt(reader.GetOrdinal("ID")).ToString();
+            item.ad = reader.GetString(reader.GetOrdinal("AD"));
             item.name = reader.GetString(reader.GetOrdinal("name"));
             item.sex = reader.GetString(reader.GetOrdinal("sex"));
-            item.age = reader.GetInt(reader.GetOrdinal("age"));
-            item.nativePlace = reader.GetString(reader.GetOrdinal("nativePlace"));
+            item.age = reader.GetInt(reader.GetOrdinal("age")).ToString();
+            item.nativeplace = reader.GetString(reader.GetOrdinal("nativePlace"));
             item.ethnic = reader.GetString(reader.GetOrdinal("ethnic"));
             item.phone = reader.GetString(reader.GetOrdinal("phone"));
             item.departments = reader.GetString(reader.GetOrdinal("departments"));
-            item.bed = reader.GetString(reader.GetOrdinal("bed"));
-            item.mainSuit = reader.GetString(reader.GetOrdinal("mainSuit"));
-            item.medicalHistory = reader.GetString(reader.GetOrdinal("medicalHistory"));
+            item.bednum = reader.GetString(reader.GetOrdinal("bed"));
+            item.mainsuit = reader.GetString(reader.GetOrdinal("mainSuit"));
+            item.medicalhistory = reader.GetString(reader.GetOrdinal("medicalHistory"));
             item.diagnosis = reader.GetString(reader.GetOrdinal("diagnosis"));
-            item.auxiliaryExamination = reader.GetString(reader.GetOrdinal("auxiliaryExamination"));
+            item.auxiliary = reader.GetString(reader.GetOrdinal("auxiliaryExamination"));
             item.contraindication = reader.GetString(reader.GetOrdinal("contraindication"));
-            item.physicalExamination = reader.GetString(reader.GetOrdinal("physicalExamination"));
-            item.doctorName = reader.GetString(reader.GetOrdinal("doctorName"));
-            item.doctorAdvice = reader.GetString(reader.GetOrdinal("doctorAdvice"));
+            item.physical = reader.GetString(reader.GetOrdinal("physicalExamination"));
+            item.doctorname = reader.GetString(reader.GetOrdinal("doctorName"));
+            item.doctoradvice = reader.GetString(reader.GetOrdinal("doctorAdvice"));
             result.Add(item);
         }
         return result;

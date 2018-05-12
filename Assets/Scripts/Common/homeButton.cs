@@ -17,7 +17,7 @@ public class homeButton : MonoBehaviour {
         {
             GameObject obj = PcObjects[i - 1];
             obj.SetActive(false);
-            if (GlobalClass.g_OperatorSchema == OperatorSchema.teachModel)
+            if (CGlobal.mode ==  OperationMode.Teaching)
             {
                 if (obj.name == "commitScore")
                 {
@@ -25,34 +25,6 @@ public class homeButton : MonoBehaviour {
                 }
             }
             continue;
-            #region 注释
-            //if (GlobalClass.g_OperatorSchema == OperatorSchema.teachModel)
-            //{
-            //    if (obj.name == "exitScene")
-            //    {
-            //        if (pos == Vector3.zero)
-            //        {
-            //            obj.transform.localPosition = PcObjects.Find(name =>
-            //            {
-
-            //                if (name.name == "commitScore")
-            //                {
-            //                    return true;
-            //                }
-            //                else
-            //                    return false;
-            //            }).transform.localPosition;
-            //        }
-            //        else
-            //            obj.transform.localPosition = pos;
-            //    }
-            //    if(obj.name == "commitScore")
-            //    {
-            //        pos = obj.transform.localPosition;
-            //        PcObjects.Remove(obj);
-            //    }
-            //}
-            #endregion
         }
         foreach (GameObject obj in PcObjects)
         {
