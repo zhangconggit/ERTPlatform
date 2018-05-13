@@ -197,7 +197,7 @@ public class AssetsBundle : MonoBehaviour
     }
 
     //DES加密秘钥，要求为8位  
-    static string desKey = "Platform";
+    static string desKey = "platform";
     //默认密钥向量
     static byte[] Keys = { 0x21, 0x34, 0x65, 0x78, 0x09, 0xAB, 0xDC, 0xFE };
 

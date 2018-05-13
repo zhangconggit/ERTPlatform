@@ -59,7 +59,12 @@ public class fileHelper {
             string line;
             while ((line = sr.ReadLine()) != null)
             {
-                allLines.Add(line.ToString());
+                if(line.IndexOf(';')>=0)
+                {
+                    line = line.Remove(line.IndexOf(';'));
+                }
+                if(line !=string.Empty)
+                    allLines.Add(line.ToString());
             }
             sr.Close();
 
@@ -168,7 +173,17 @@ public class fileHelper {
         List<string> allLines = new List<string>();
         foreach(string t in s)
         {
-            allLines.Add(t);
+            string line = t;
+            if (line.IndexOf(';') >= 0)
+            {
+                line = line.Remove(line.IndexOf(';'));
+            }
+            if (line.IndexOf('\r') >= 0)
+            {
+                line = line.Replace("\r","");
+            }
+            if (line != string.Empty)
+                allLines.Add(line);
         }
         tmpUnit = paraIni(allLines);
         if(!dataCache.ContainsKey(path))

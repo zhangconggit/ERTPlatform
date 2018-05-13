@@ -1,0 +1,7 @@
+[AB]
+AssetBundle=63mSMiipik4=
+audio_mv=uyjfmXrd2xI=
+model_mv=uyjfmXrd2xI=
+prefab_mv=V7Ew49BYeOc=
+ui_mv=zchcF5GV0CE=
+txt_mv=uyjfmXrd2xI=
