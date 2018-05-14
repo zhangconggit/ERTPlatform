@@ -1,8 +1,0 @@
-[Attentions]
-allEnd=操作结束
-
-[NurseQuestions]
-nnurseQuestion1=你好
-
-[PatientAnswers]
-1answer1=好的

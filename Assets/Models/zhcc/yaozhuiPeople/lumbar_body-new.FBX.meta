@@ -1,0 +1,283 @@
+fileFormatVersion: 2
+guid: 00c9544c070174a7e8691a3d441c48e9
+timeCreated: 1509615966
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: lumbar_adult_body
+    100002: lumbar_adult_gauze
+    100004: lumbar_adult_tape1
+    100006: lumbar_adult_tape2
+    100008: lumbar_adult_tape3
+    100010: //RootNode
+    100012: lumbar_bone01
+    100014: lumbar_bone01_MeshPart0
+    100016: lumbar_bone01_MeshPart1
+    100018: lumbar_bone02
+    100020: lumbar_bone02_MeshPart0
+    100022: lumbar_bone02_MeshPart1
+    100024: lumbar_bone02_MeshPart2
+    100026: lumbar_bone03
+    100028: lumbar_bone03_MeshPart0
+    100030: lumbar_bone03_MeshPart1
+    100032: lumbar_bone03_MeshPart2
+    100034: lumbar_child_body
+    100036: lumbar_child_gauze
+    100038: lumbar_child_tape1
+    100040: lumbar_child_tape2
+    100042: lumbar_child_tape3
+    100044: lumbar_fatty_body
+    100046: lumbar_fatty_gauze
+    100048: lumbar_fatty_tape1
+    100050: lumbar_fatty_tape2
+    100052: lumbar_fatty_tape3
+    100054: OgreMaxSceneSettings001
+    400000: lumbar_adult_body
+    400002: lumbar_adult_gauze
+    400004: lumbar_adult_tape1
+    400006: lumbar_adult_tape2
+    400008: lumbar_adult_tape3
+    400010: //RootNode
+    400012: lumbar_bone01
+    400014: lumbar_bone01_MeshPart0
+    400016: lumbar_bone01_MeshPart1
+    400018: lumbar_bone02
+    400020: lumbar_bone02_MeshPart0
+    400022: lumbar_bone02_MeshPart1
+    400024: lumbar_bone02_MeshPart2
+    400026: lumbar_bone03
+    400028: lumbar_bone03_MeshPart0
+    400030: lumbar_bone03_MeshPart1
+    400032: lumbar_bone03_MeshPart2
+    400034: lumbar_child_body
+    400036: lumbar_child_gauze
+    400038: lumbar_child_tape1
+    400040: lumbar_child_tape2
+    400042: lumbar_child_tape3
+    400044: lumbar_fatty_body
+    400046: lumbar_fatty_gauze
+    400048: lumbar_fatty_tape1
+    400050: lumbar_fatty_tape2
+    400052: lumbar_fatty_tape3
+    400054: OgreMaxSceneSettings001
+    2300000: lumbar_adult_body
+    2300002: lumbar_adult_gauze
+    2300004: lumbar_adult_tape1
+    2300006: lumbar_adult_tape2
+    2300008: lumbar_adult_tape3
+    2300010: lumbar_bone01_MeshPart0
+    2300012: lumbar_bone01_MeshPart1
+    2300014: lumbar_bone02_MeshPart0
+    2300016: lumbar_bone02_MeshPart1
+    2300018: lumbar_bone02_MeshPart2
+    2300020: lumbar_bone03_MeshPart0
+    2300022: lumbar_bone03_MeshPart1
+    2300024: lumbar_bone03_MeshPart2
+    2300026: lumbar_child_body
+    2300028: lumbar_child_gauze
+    2300030: lumbar_child_tape1
+    2300032: lumbar_child_tape2
+    2300034: lumbar_child_tape3
+    2300036: lumbar_fatty_body
+    2300038: lumbar_fatty_gauze
+    2300040: lumbar_fatty_tape1
+    2300042: lumbar_fatty_tape2
+    2300044: lumbar_fatty_tape3
+    3300000: lumbar_adult_body
+    3300002: lumbar_adult_gauze
+    3300004: lumbar_adult_tape1
+    3300006: lumbar_adult_tape2
+    3300008: lumbar_adult_tape3
+    3300010: lumbar_bone01_MeshPart0
+    3300012: lumbar_bone01_MeshPart1
+    3300014: lumbar_bone02_MeshPart0
+    3300016: lumbar_bone02_MeshPart1
+    3300018: lumbar_bone02_MeshPart2
+    3300020: lumbar_bone03_MeshPart0
+    3300022: lumbar_bone03_MeshPart1
+    3300024: lumbar_bone03_MeshPart2
+    3300026: lumbar_child_body
+    3300028: lumbar_child_gauze
+    3300030: lumbar_child_tape1
+    3300032: lumbar_child_tape2
+    3300034: lumbar_child_tape3
+    3300036: lumbar_fatty_body
+    3300038: lumbar_fatty_gauze
+    3300040: lumbar_fatty_tape1
+    3300042: lumbar_fatty_tape2
+    3300044: lumbar_fatty_tape3
+    4300000: lumbar_fatty_body
+    4300002: lumbar_fatty_gauze
+    4300004: lumbar_fatty_tape3
+    4300006: lumbar_fatty_tape2
+    4300008: lumbar_fatty_tape1
+    4300010: lumbar_adult_body
+    4300012: lumbar_adult_tape3
+    4300014: lumbar_adult_tape2
+    4300016: lumbar_adult_tape1
+    4300018: lumbar_adult_gauze
+    4300020: lumbar_child_body
+    4300022: lumbar_child_tape1
+    4300024: lumbar_child_tape3
+    4300026: lumbar_child_gauze
+    4300028: lumbar_child_tape2
+    4300030: lumbar_bone02_MeshPart0
+    4300032: lumbar_bone02_MeshPart1
+    4300034: lumbar_bone02_MeshPart2
+    4300036: lumbar_bone03_MeshPart0
+    4300038: lumbar_bone03_MeshPart1
+    4300040: lumbar_bone03_MeshPart2
+    4300042: lumbar_bone01_MeshPart0
+    4300044: lumbar_bone01_MeshPart1
+    7400000: YaoZhuiBaoZha
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: YaoZhuiBaoZha
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 200
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: lumbar_adult_body
+        weight: 1
+      - path: lumbar_adult_gauze
+        weight: 1
+      - path: lumbar_adult_tape1
+        weight: 1
+      - path: lumbar_adult_tape2
+        weight: 1
+      - path: lumbar_adult_tape3
+        weight: 1
+      - path: lumbar_bone01
+        weight: 1
+      - path: lumbar_bone01/lumbar_bone01_MeshPart0
+        weight: 1
+      - path: lumbar_bone01/lumbar_bone01_MeshPart1
+        weight: 1
+      - path: lumbar_bone02
+        weight: 1
+      - path: lumbar_bone02/lumbar_bone02_MeshPart0
+        weight: 1
+      - path: lumbar_bone02/lumbar_bone02_MeshPart1
+        weight: 1
+      - path: lumbar_bone02/lumbar_bone02_MeshPart2
+        weight: 1
+      - path: lumbar_bone03
+        weight: 1
+      - path: lumbar_bone03/lumbar_bone03_MeshPart0
+        weight: 1
+      - path: lumbar_bone03/lumbar_bone03_MeshPart1
+        weight: 1
+      - path: lumbar_bone03/lumbar_bone03_MeshPart2
+        weight: 1
+      - path: lumbar_child_body
+        weight: 1
+      - path: lumbar_child_gauze
+        weight: 1
+      - path: lumbar_child_tape1
+        weight: 1
+      - path: lumbar_child_tape2
+        weight: 1
+      - path: lumbar_child_tape3
+        weight: 1
+      - path: lumbar_fatty_body
+        weight: 1
+      - path: lumbar_fatty_gauze
+        weight: 1
+      - path: lumbar_fatty_tape1
+        weight: 1
+      - path: lumbar_fatty_tape2
+        weight: 1
+      - path: lumbar_fatty_tape3
+        weight: 1
+      - path: OgreMaxSceneSettings001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

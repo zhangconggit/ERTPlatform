@@ -1,0 +1,25 @@
+<<<<<<< .mine
+fileFormatVersion: 2
+<<<<<<< .mine
+guid: b1324aa14551e4c59b8f79663f1afe1c
+timeCreated: 1510535695
+licenseType: Pro
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: cfb24a04b2f2fe14aa9c6a78f2c9e92e
+timeCreated: 1510536661
+licenseType: Free
+=======
+guid: 282e185d5dd86bf41b7a45aa7611e6ac
+timeCreated: 1510536959
+licenseType: Pro
+>>>>>>> .r158
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> .r155

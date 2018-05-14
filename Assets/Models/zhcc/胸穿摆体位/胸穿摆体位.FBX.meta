@@ -1,0 +1,180 @@
+fileFormatVersion: 2
+guid: 555a39f593eaead44ac0e1a529a5eb23
+timeCreated: 1509613363
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: chest_body_s
+    100002: chest_chair
+    100004: OgreMaxSceneSettings001
+    100006: op_chair
+    100008: op_chair01
+    100010: op_chair02
+    100012: op_guizi
+    100014: op_kongqixiaoduji
+    100016: op_lajitong
+    100018: op_liqihe
+    100020: op_luodideng
+    100022: op_men
+    100024: op_qiang
+    100026: op_qiangjiuche
+    100028: op_xindianyi
+    100030: op_xishoutai
+    100032: op_yangqiping
+    100034: op_yiliaoche
+    100036: op_zhiliaochuang
+    100038: op_zhiliaogui
+    100040: zhiliaoshi
+    100042: "\u5BF9\u8C61001"
+    100044: //RootNode
+    400000: chest_body_s
+    400002: chest_chair
+    400004: OgreMaxSceneSettings001
+    400006: op_chair
+    400008: op_chair01
+    400010: op_chair02
+    400012: op_guizi
+    400014: op_kongqixiaoduji
+    400016: op_lajitong
+    400018: op_liqihe
+    400020: op_luodideng
+    400022: op_men
+    400024: op_qiang
+    400026: op_qiangjiuche
+    400028: op_xindianyi
+    400030: op_xishoutai
+    400032: op_yangqiping
+    400034: op_yiliaoche
+    400036: op_zhiliaochuang
+    400038: op_zhiliaogui
+    400040: zhiliaoshi
+    400042: "\u5BF9\u8C61001"
+    400044: //RootNode
+    2300000: chest_body_s
+    2300002: chest_chair
+    2300004: op_chair
+    2300006: op_chair01
+    2300008: op_chair02
+    2300010: op_guizi
+    2300012: op_kongqixiaoduji
+    2300014: op_lajitong
+    2300016: op_liqihe
+    2300018: op_luodideng
+    2300020: op_men
+    2300022: op_qiang
+    2300024: op_qiangjiuche
+    2300026: op_xindianyi
+    2300028: op_xishoutai
+    2300030: op_yangqiping
+    2300032: op_yiliaoche
+    2300034: op_zhiliaochuang
+    2300036: op_zhiliaogui
+    2300038: "\u5BF9\u8C61001"
+    3300000: chest_body_s
+    3300002: chest_chair
+    3300004: op_chair
+    3300006: op_chair01
+    3300008: op_chair02
+    3300010: op_guizi
+    3300012: op_kongqixiaoduji
+    3300014: op_lajitong
+    3300016: op_liqihe
+    3300018: op_luodideng
+    3300020: op_men
+    3300022: op_qiang
+    3300024: op_qiangjiuche
+    3300026: op_xindianyi
+    3300028: op_xishoutai
+    3300030: op_yangqiping
+    3300032: op_yiliaoche
+    3300034: op_zhiliaochuang
+    3300036: op_zhiliaogui
+    3300038: "\u5BF9\u8C61001"
+    4300000: chest_chair
+    4300002: chest_body_s
+    4300004: op_zhiliaogui
+    4300006: op_yangqiping
+    4300008: op_lajitong
+    4300010: op_chair02
+    4300012: op_kongqixiaoduji
+    4300014: op_xishoutai
+    4300016: op_liqihe
+    4300018: op_qiangjiuche
+    4300020: op_yiliaoche
+    4300022: op_zhiliaochuang
+    4300024: op_chair01
+    4300026: op_luodideng
+    4300028: op_men
+    4300030: op_guizi
+    4300032: op_chair
+    4300034: op_xindianyi
+    4300036: op_qiang
+    4300038: "\u5BF9\u8C61001"
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

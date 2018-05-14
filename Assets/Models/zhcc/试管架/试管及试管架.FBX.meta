@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: dbba83e74de6a6e429b2a94d7ab5d2c4
+timeCreated: 1510734099
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: 1:02
+    100002: Camera001
+    100004: Camera001.Target
+    100006: Camera002
+    100008: Camera002.Target
+    100010: Camera003
+    100012: Camera003.Target
+    100014: injector102
+    100016: injector201
+    100018: injector202
+    100020: injector301
+    100022: injector302
+    100024: injector401
+    100026: injector402
+    100028: injector403
+    100030: OgreMaxSceneSettings001
+    100032: pe_Camera001
+    100034: pe_Camera002
+    100036: shiguan
+    100038: shiguan_yezhu002
+    100040: shiguan_yezhu003
+    100042: shiguan_yezhu1
+    100044: shiguanyet
+    100046: sj1_liquid_tube
+    100048: sj1_tube1
+    100050: sj1_tube2
+    100052: sj1_tube3
+    100054: //RootNode
+    400000: 1:02
+    400002: Camera001
+    400004: Camera001.Target
+    400006: Camera002
+    400008: Camera002.Target
+    400010: Camera003
+    400012: Camera003.Target
+    400014: injector102
+    400016: injector201
+    400018: injector202
+    400020: injector301
+    400022: injector302
+    400024: injector401
+    400026: injector402
+    400028: injector403
+    400030: OgreMaxSceneSettings001
+    400032: pe_Camera001
+    400034: pe_Camera002
+    400036: shiguan
+    400038: shiguan_yezhu002
+    400040: shiguan_yezhu003
+    400042: shiguan_yezhu1
+    400044: shiguanyet
+    400046: sj1_liquid_tube
+    400048: sj1_tube1
+    400050: sj1_tube2
+    400052: sj1_tube3
+    400054: //RootNode
+    2300000: 1:02
+    2300002: injector102
+    2300004: injector201
+    2300006: injector202
+    2300008: injector301
+    2300010: injector302
+    2300012: injector401
+    2300014: injector402
+    2300016: injector403
+    2300018: shiguan
+    2300020: shiguan_yezhu002
+    2300022: shiguan_yezhu003
+    2300024: shiguan_yezhu1
+    2300026: shiguanyet
+    2300028: sj1_liquid_tube
+    2300030: sj1_tube1
+    2300032: sj1_tube2
+    2300034: sj1_tube3
+    3300000: 1:02
+    3300002: injector102
+    3300004: injector201
+    3300006: injector202
+    3300008: injector301
+    3300010: injector302
+    3300012: injector401
+    3300014: injector402
+    3300016: injector403
+    3300018: shiguan
+    3300020: shiguan_yezhu002
+    3300022: shiguan_yezhu003
+    3300024: shiguan_yezhu1
+    3300026: shiguanyet
+    3300028: sj1_liquid_tube
+    3300030: sj1_tube1
+    3300032: sj1_tube2
+    3300034: sj1_tube3
+    4300000: 1:02
+    4300002: shiguan
+    4300004: shiguanyet
+    4300006: injector102
+    4300008: injector201
+    4300010: injector202
+    4300012: injector301
+    4300014: injector302
+    4300016: injector401
+    4300018: injector402
+    4300020: injector403
+    4300022: sj1_tube2
+    4300024: sj1_tube1
+    4300026: sj1_tube3
+    4300028: sj1_liquid_tube
+    4300030: shiguan_yezhu1
+    4300032: shiguan_yezhu002
+    4300034: shiguan_yezhu003
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
