@@ -1,24 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <main>
-  <step name="Login" chanesename="病历表">
+  <step name="T1" chanesename="1">
 	<auto>0</auto>
 	<intotime> 0</intotime>
 	<mustdo></mustdo>
 	<cantdo></cantdo>
-	<navigation></navigation>
+	<navigation>物品选择</navigation>
   </step>
-  <step name="ch" chanesename="病历表">
+  <step name="T2" chanesename="2">
 	<auto>0</auto>
-	<intotime>0</intotime>
+	<intotime>3</intotime>
 	<mustdo></mustdo>
 	<cantdo></cantdo>
-	<navigation></navigation>
-  </step>
-  <step name="ch" chanesename="病历表">
-	<auto> 0</auto>
-	<intotime> 0</intotime>
-	<mustdo></mustdo>
-	<cantdo></cantdo>
-	<navigation></navigation>
+	<navigation>术前准备</navigation>
   </step>
 </main>

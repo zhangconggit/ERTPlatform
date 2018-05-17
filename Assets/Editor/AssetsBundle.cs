@@ -10,19 +10,281 @@ using System;
 
 public class AssetsBundle : MonoBehaviour
 {
+    static string AssetResoure = Application.dataPath + "/Resources";
     static string AssetPath = Application.dataPath + "/AssetBundle";
-    static string updatePath = Application.dataPath + "/AssetBundle/_file_/assetFileVersions.txt";
-    static string VisonPath = Application.dataPath + "/StreamingAssets/Version/version.txt";
+    static string updatePath = "/_file_/assetFileVersions.txt";
+    static string ConfigPath = Application.dataPath + "/StreamingAssets/Config.ini";
     /// <summary>
     /// 点击后，所有设置了AssetBundle名称的资源会被 分单个打包出来
     /// </summary>
-    [MenuItem("AssetBundle/资源打包")]
+    [MenuItem("AssetBundle/资源打包-全部")]
     static void Build_AssetBundle()
     {
-        BuildPipeline.BuildAssetBundles(AssetPath, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
-        //刷新
-        AssetDatabase.Refresh();
-        BuildVersion();
+        string[] paths = Directory.GetDirectories(AssetResoure);
+        foreach (var item in paths)
+        {
+            AssetBundleBuild[] bundelMap = new AssetBundleBuild[5];
+            //遍历项目名称
+            string product = item.Substring(item.LastIndexOf('\\') + 1);
+            string path = item;
+            string[] assetNames = Directory.GetDirectories(path);
+            foreach (var nameFull in assetNames)
+            {
+                string name = nameFull.Substring(nameFull.LastIndexOf('\\') + 1);
+                switch (name)
+                {
+                    case "Audio":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[0].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[0].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Models":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[1].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[1].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Prefab":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[2].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[2].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Txt":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[3].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[3].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "UI":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[4].assetBundleName = name+"_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add( "Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[4].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+               
+            }
+            if (!Directory.Exists(AssetPath + "/" + product))
+                Directory.CreateDirectory(AssetPath + "/" + product);
+            BuildPipeline.BuildAssetBundles(AssetPath + "/" + product, bundelMap);
+            //刷新
+            AssetDatabase.Refresh();
+            BuildVersion(product);
+        }
+
+        
+        
+    }
+    [MenuItem("AssetBundle/资源打包-当前")]
+    static void Build_AssetBundleOne()
+    {
+        string[] paths = Directory.GetDirectories(AssetResoure);
+        string currentFile = fileHelper.ReadIni("Project", "name", ConfigPath);
+        foreach (var item in paths)
+        {
+            string product = item.Substring(item.LastIndexOf('\\') + 1);
+            if (product != currentFile)
+                continue;
+
+            AssetBundleBuild[] bundelMap = new AssetBundleBuild[5];
+            //遍历项目名称
+            
+            string path = item;
+            string[] assetNames = Directory.GetDirectories(path);
+            foreach (var nameFull in assetNames)
+            {
+                string name = nameFull.Substring(nameFull.LastIndexOf('\\') + 1);
+                switch (name)
+                {
+                    case "Audio":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[0].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[0].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Models":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[1].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[1].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Prefab":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[2].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[2].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "Txt":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[3].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[3].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    case "UI":
+                        {
+
+                            string[] files = Directory.GetFiles(nameFull);
+                            if (files.Length > 0)
+                            {
+                                bundelMap[4].assetBundleName = name + "_" + product;
+                                List<string> ssetsSourceList = new List<string>();
+                                for (int i = 0; i < files.Length; i++)
+                                {
+                                    string type = files[i].Substring(files[i].LastIndexOf('.') + 1);
+                                    if (type != "meta")
+                                    {
+                                        ssetsSourceList.Add("Assets" + files[i].Replace(Application.dataPath, ""));
+                                    }
+                                }
+                                bundelMap[4].assetNames = ssetsSourceList.ToArray();
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            if (!Directory.Exists(AssetPath + "/" + product))
+                Directory.CreateDirectory(AssetPath + "/" + product);
+            BuildPipeline.BuildAssetBundles(AssetPath + "/" + product, bundelMap);
+            //刷新
+            AssetDatabase.Refresh();
+            BuildVersion(product);
+        }
+
+
+
     }
 
     [MenuItem("AssetBundle/清除本地资源包缓存")]
@@ -30,12 +292,12 @@ public class AssetsBundle : MonoBehaviour
     {
         Caching.CleanCache();
     }
-    static void BuildVersion()
+    static void BuildVersion(string name)
     {
         Caching.CleanCache();
-        loadVersionFile();
-        WriteUpdateTXT();
-        WriteVersionTXT();
+        loadVersionFile(name);
+        WriteUpdateTXT(name);
+        //WriteVersionTXT();
         AssetDatabase.Refresh();
     }
 
@@ -44,21 +306,21 @@ public class AssetsBundle : MonoBehaviour
     /// <summary>
     /// 更新版本文档
     /// </summary>
-    static void WriteUpdateTXT()
+    static void WriteUpdateTXT(string name)
     {
-        string[] files = Directory.GetFiles(AssetPath, "*.*", SearchOption.AllDirectories);
+        string[] files = Directory.GetFiles(AssetPath+"/"+name, "*.*", SearchOption.AllDirectories);
         StringBuilder stringBuilder = new StringBuilder();
         foreach (string filePath in files)
         {
             if (!filePath.EndsWith(".meta") && !filePath.Contains(".manifest") && !filePath.Contains("_file_"))
             {
                 string md5 = BuildFileMd5(filePath);
-                string fileName = filePath.Substring(filePath.LastIndexOf("AssetBundle\\") + ("AssetBundle\\").Length);
+                string fileName = filePath.Substring(filePath.LastIndexOf(name+"\\") + (name+"\\").Length);
                 visonCompare(fileName, md5);
                 stringBuilder.AppendLine(string.Format("{0}:{1}", fileName, md5));
             }
         }
-        WriteTXT(stringBuilder.ToString(), updatePath);
+        WriteTXT(stringBuilder.ToString(), AssetPath + "/" + name+updatePath);
     }
 
     static string BuildFileMd5(string filePath)
@@ -112,18 +374,26 @@ public class AssetsBundle : MonoBehaviour
 
     static Dictionary<string, string> serverUpdateDic = new Dictionary<string, string>();
     static Dictionary<string, string> visonControl = new Dictionary<string, string>();
-    static void loadVersionFile()
+    static void loadVersionFile(string name)
     {
         serverUpdateDic.Clear();
         visonControl.Clear();
-        
+        string filePath = AssetPath + "/" + name + updatePath;
+        string fileDir = filePath.Substring(0, filePath.LastIndexOf('/'));
+        if (!Directory.Exists(fileDir))
+            Directory.CreateDirectory(fileDir);
+        if (!File.Exists(filePath))
+        {
+            FileStream fs1 = new FileStream(filePath, FileMode.Create);
+            fs1.Close();
+        }
         string CodeSTR = string.Empty;
         StreamReader sR;
-        sR = new StreamReader(updatePath, Encoding.Default);
+        sR = new StreamReader(filePath, Encoding.Default);
         while ((CodeSTR = sR.ReadLine()) != null)
         {
             int i = CodeSTR.IndexOf(":");
-            if(i != -1)
+            if (i != -1)
             {
                 string key = CodeSTR.Substring(0, i);
                 string value = CodeSTR.Substring(i + 1);
@@ -132,18 +402,18 @@ public class AssetsBundle : MonoBehaviour
         }
         sR.Close();
 
-        sR = new StreamReader(VisonPath, Encoding.Default);
-        while ((CodeSTR = sR.ReadLine()) != null)
-        {
-            int i = CodeSTR.IndexOf("=");
-            if(i!= -1)
-            {
-                string key = CodeSTR.Substring(0, i);
-                string value = DecryptDES(CodeSTR.Substring(i + 1));
-                visonControl.Add(key, value);
-            }
-        }
-        sR.Close();
+        //sR = new StreamReader(VisonPath, Encoding.Default);
+        //while ((CodeSTR = sR.ReadLine()) != null)
+        //{
+        //    int i = CodeSTR.IndexOf("=");
+        //    if (i != -1)
+        //    {
+        //        string key = CodeSTR.Substring(0, i);
+        //        string value = DecryptDES(CodeSTR.Substring(i + 1));
+        //        visonControl.Add(key, value);
+        //    }
+        //}
+        //sR.Close();
 
     }
 
@@ -183,18 +453,18 @@ public class AssetsBundle : MonoBehaviour
         }
     }
 
-    static void WriteVersionTXT()
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine("[AB]");
-        foreach (KeyValuePair<string, string> item in visonControl)
-        {
-            stringBuilder.AppendLine(string.Format("{0}={1}", item.Key, EncryptDES(item.Value)));// "a", EncryptDES("中文加密")));//, 
-        }
-        WriteTXT(stringBuilder.ToString(), VisonPath);
-        serverUpdateDic.Clear();
-        visonControl.Clear();
-    }
+    //static void WriteVersionTXT()
+    //{
+    //    StringBuilder stringBuilder = new StringBuilder();
+    //    stringBuilder.AppendLine("[AB]");
+    //    foreach (KeyValuePair<string, string> item in visonControl)
+    //    {
+    //        stringBuilder.AppendLine(string.Format("{0}={1}", item.Key, EncryptDES(item.Value)));// "a", EncryptDES("中文加密")));//, 
+    //    }
+    //    WriteTXT(stringBuilder.ToString(), VisonPath);
+    //    serverUpdateDic.Clear();
+    //    visonControl.Clear();
+    //}
 
     //DES加密秘钥，要求为8位  
     static string desKey = "platform";

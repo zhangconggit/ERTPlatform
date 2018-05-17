@@ -160,7 +160,7 @@ public class MainApp : MonoBehaviour
                         item.style = AssetBundleStyleEnum.Audios;
                         item.packagedesc = "语音";
                         break;
-                    case "model":
+                    case "models":
                         item.style = AssetBundleStyleEnum.Model;
                         item.packagedesc = "模型";
                         break;

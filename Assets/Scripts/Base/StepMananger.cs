@@ -580,7 +580,8 @@ public class StepManager
                     break;
                 }
             }
-            if (i != stepList.Count - 1)
+            i++;
+            if (i < stepList.Count)
                 return stepList[i];
 
         }
