@@ -62,7 +62,7 @@ public class StepManager
     /// 步骤信息列表
     /// </summary>
     public List<StepInfo> stepList = new List<StepInfo>();
-    
+
     /// <summary>
     /// 导航图
     /// </summary>
@@ -87,7 +87,7 @@ public class StepManager
         get { return currStepState; }
         set { currStepState = value; }
     }
-   
+
 
     // Use this for initialization
     StepManager()
@@ -107,7 +107,7 @@ public class StepManager
             if (obj != null)
             {
                 type.pStepClass = obj;
-                
+
                 setStepNavigation(type.navigation, type.stepName);
             }
         }
@@ -126,10 +126,25 @@ public class StepManager
             list.Add(obj);
         }
         m_navgation = new UNavigation(list);
-
-        IntoStep(stepList[0].stepName);
+        m_navgation.onClickPorgress.AddListener(InitStepState);
+        InitStepState(stepList[0].stepName);
+        
     }
-
+    public void InitStepState(string stepname)
+    {
+        for (int i = stepList.Count - 1; i >= 0; i--)
+        {
+            stepList[i].pStepClass.StepStartState();
+            if (stepList[i].stepName == stepname)
+            {
+                if (stepList[i].isAutoGo || i == 0)
+                    nextStep = stepList[i].stepName;
+                //else
+                //    undoStepTips();
+                break;
+            }
+        }
+    }
     public void SetStepEnd()
     {
         if (pCurrentStep != null && pCurrentStep.pStepClass != null)
@@ -223,7 +238,7 @@ public class StepManager
         return false;
     }
 
-    
+
 
 
     public string GetLastStep()
@@ -298,9 +313,9 @@ public class StepManager
             return true;
         }
     }
-    public void  StartStep()
+    public void StartStep()
     {
-        if(stepList.Count > 0)
+        if (stepList.Count > 0)
             IntoStep(stepList[0].stepName);
     }
     // Update is called once per frame
@@ -347,6 +362,7 @@ public class StepManager
                 {
                     undoStepTips();
                 }
+                pCurrentStep = null;
             }
         }
         else
@@ -659,29 +675,29 @@ public class StepInfo
     /// <summary>
     /// 当前步骤
     /// </summary>
-    public string stepName="";
+    public string stepName = "";
     /// <summary>
     /// 是否自动跳转
     /// </summary>
-    public bool isAutoGo=false;
+    public bool isAutoGo = false;
 
     //如果不是自动进入,则需要模型触发
-    public string triggerModelName="";
+    public string triggerModelName = "";
 
     /// <summary>
     /// 进入步骤的时间
     /// </summary>
-    public float intoTime=0;
+    public float intoTime = 0;
 
     /// <summary>
     /// 必须完成的步骤
     /// </summary>
-    public List<string> mustDoStep=new List<string>();
+    public List<string> mustDoStep = new List<string>();
 
     /// <summary>
     /// 不能做的步骤
     /// </summary>
-    public List<string> cannotDoStep=new List<string>();
+    public List<string> cannotDoStep = new List<string>();
 
     /// <summary>
     /// 步骤功能对象

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <main>
-  <step name="T1" chanesename="1">
-	<auto>0</auto>
-	<intotime> 0</intotime>
+  <step name="VerifyNarcotic" chanesename="核对麻醉药">
+	<auto>1</auto>
+	<intotime>2</intotime>
 	<mustdo></mustdo>
 	<cantdo></cantdo>
-	<navigation>物品选择</navigation>
+	<navigation>局部麻醉</navigation>
   </step>
-  <step name="T2" chanesename="2">
-	<auto>0</auto>
-	<intotime>3</intotime>
+   <step name="DrawNarcotic" chanesename="抽吸麻药">
+	<auto>1</auto>
+	<intotime>2</intotime>
 	<mustdo></mustdo>
 	<cantdo></cantdo>
-	<navigation>术前准备</navigation>
+	<navigation>局部麻醉</navigation>
   </step>
 </main>

@@ -194,7 +194,25 @@ public class MethodMaker
         }
         return obj;
     }
-
+    /// <summary>
+    /// 创建对象（当前程序集）
+    /// </summary>
+    /// <param name="typeName">类型名</param>
+    /// <returns>创建的对象，失败返回 null</returns>
+    public static object CreateObject(string typeName,params object[]  par)
+    {
+        object obj = null;
+        try
+        {
+            Type objType = Type.GetType(typeName, true);
+            obj = Activator.CreateInstance(objType, par);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex);
+        }
+        return obj;
+    }
     /// <summary>
     /// 创建对象(外部程序集)
     /// </summary>

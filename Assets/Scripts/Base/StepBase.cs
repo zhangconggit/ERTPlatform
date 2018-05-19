@@ -69,6 +69,8 @@ public class StepBase
         Sid = GetType().Name;
         stepUI = new UPageBase();
         stepUI.name = Sid + "UI";
+        stepUI.rect = new Rect(0, 0, 1920, 1080);
+        stepUI.SetActive(false);
     }
 
     protected T CreateUI<T>() where T : UPageBase
@@ -79,11 +81,21 @@ public class StepBase
         baseUI.SetParent(stepUI);
         return (T)obj;
     }
+    protected T CreateUI<T>(params object[] par) where T : UPageBase
+    {
+        System.Type ty = typeof(T);
+        object obj = MethodMaker.CreateObject(ty.FullName, par);
+        UPageBase baseUI = (T)obj;
+        baseUI.SetParent(stepUI);
+        return (T)obj;
+    }
+    
     /// <summary>
     /// 步骤执行前
     /// </summary>
     virtual public void EnterStep(float cameraTime = 1f)
     {
+        ModelEventSystem.Instance.Add3DModelListenEvent(OnClickModel);
         //CGrade.addVideoStep(sid.ToString());
         State = StepStatus.indo;
         stepTimes++;
@@ -107,13 +119,13 @@ public class StepBase
     /// </summary>
     virtual public void StepUpdate()
     {
-        if (timeout > timeoutmax)
-        {
-            StepEndState();
-            timeout = -2;
-        }
-        else
-            timeout += Time.deltaTime;
+        //if (timeout > timeoutmax)
+        //{
+        //    StepEndState();
+        //    timeout = -2;
+        //}
+        //else
+        //    timeout += Time.deltaTime;
     }
     /// <summary>
     /// 后更新
@@ -145,6 +157,8 @@ public class StepBase
     /// </summary>
     virtual public void OnTriggerExit(GameObject trigger, Collider collider) { }
 
+    virtual public void OnClickModel(RaycastHit obj) { }
+
     /// <summary>
     /// 步骤执行后
     /// </summary>
@@ -152,7 +166,7 @@ public class StepBase
     {
         //CGrade.addVideoStep(sid.ToString());
         stepUI.SetActive(false);
-
+        ModelEventSystem.Instance.Remove3DModelListenEvent(OnClickModel);
         if (State != StepStatus.did && State != StepStatus.errorDid)
         {
             StepEndState();
@@ -163,6 +177,11 @@ public class StepBase
     /// 步骤重置
     /// </summary>
     virtual public void StepReset() { State = StepStatus.undo; stepTimes = 0; timeout = 0; }
+
+    /// <summary>
+    /// 设置步骤开始状态
+    /// </summary>
+    virtual public void StepStartState() { }
     /// <summary>
     /// 设置步骤结束状态
     /// </summary>

@@ -28,10 +28,6 @@ public class MainApp : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             gameObject.name = "Main";
             StepManager.Instance.nextStep = firstStep;
-            //if (loadUI != null)
-            //{
-            //    //loadUI.SetActive(true);
-            //}
         }
         else
         {
