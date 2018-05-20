@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <main>
+	<step name="CCDisinfection" chanesename="消毒穿刺点">
+	<auto>1</auto>
+	<intotime>2</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>消毒</navigation>
+  </step>
   <step name="VerifyNarcotic" chanesename="核对麻醉药">
 	<auto>1</auto>
 	<intotime>2</intotime>

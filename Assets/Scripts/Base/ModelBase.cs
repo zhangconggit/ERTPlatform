@@ -14,9 +14,9 @@ namespace CFramework
 
         protected ModelBase()
         {
-
+            
         }
-
+        
         /// <Summary>
         /// 构造函数，参数为模型唯一描述，默认初始方向和欧拉角均为（0，0，0）
         /// </Summary>

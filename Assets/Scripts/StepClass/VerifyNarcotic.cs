@@ -26,13 +26,25 @@ public class VerifyNarcotic : StepBase
         ui.SetButton(pathListDefault, pathList);
         ui.OnOkbutton.AddListener(OnClickOkButton);
     }
+
+    public override void StepStartState()
+    {
+        base.StepEndState();
+    }
+
+    public override void CameraMoveFinished()
+    {
+        base.CameraMoveFinished();
+        VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "start_check_anesthetic");
+    }
+
     void OnClickOkButton(string buttonName)
     {
         if(buttonName.Contains("ok"))
             State = StepStatus.did;
         else
         {
-            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "");
+            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "check_anesthetic_wrong");
         }
     }
 }

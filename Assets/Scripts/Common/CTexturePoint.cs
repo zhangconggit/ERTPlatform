@@ -1,6 +1,4 @@
-﻿#define Test0
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,21 +8,14 @@ using UnityEngine;
 
 namespace MisTexturePoint
 {
-
-    public enum brushStyle
-    {
-        Circle = 0,
-        Rect,
-    }
-
     /// <summary>
     /// 多边形类
     /// </summary>
     public class Polygon
     {
-        #region CalculateClockDirection
+        #region CalculateClockDirection  
         /// <summary>  
-        /// 判断多边形是顺时针还是逆时针
+        /// 判断多边形是顺时针还是逆时针.  
         /// </summary>  
         /// <param name="points">所有的点</param>  
         /// <param name="isYAxixToDown">true:Y轴向下为正(屏幕坐标系),false:Y轴向上为正(一般的坐标系)</param>  
@@ -67,101 +58,6 @@ namespace MisTexturePoint
             {
                 return (ClockDirection.None);
             }
-        }
-
-        /// <summary>  
-        /// 判断屏幕多边形是顺时针还是逆时针（夹角大小）
-        /// </summary>  
-        /// <param name="points">鼠标点</param>  
-        /// <param name="isYAxixToDown">true:Y轴向下为正(屏幕坐标系),false:Y轴向上为正(一般的坐标系)</param>  
-        /// <returns></returns>  
-        public static ClockDirection CalculateClockDirection(List<Vector2> points, bool isYAxixToDown, int AllowErrorTimes)
-        {
-            int errorTime = 0;
-            int RightTime = 0;
-            Vector2 OPoint = new Vector2(-1f, -1f);
-            Vector2 nextPoint = new Vector2(-2f, -2f);
-            Vector2 lastPoint = new Vector2(-3f, -3f);
-            int yTrans = isYAxixToDown ? (-1) : (1);
-            if (points.Count < 2)
-                return (0);
-            if (OPoint.x == -1)
-                OPoint = points[0];
-            for (int i = 1; i < points.Count; i++)
-            {
-                lastPoint = nextPoint;
-                nextPoint = points[i];
-                if (lastPoint.x != -2)
-                {
-                    float lastAngle = Vector2.Angle(new Vector2(yTrans, 0), lastPoint - OPoint);
-                    float nowAngle = Vector2.Angle(new Vector2(yTrans, 0), nextPoint - OPoint);
-                    lastAngle = (lastPoint - OPoint).y > 0 ? lastAngle : 360f - lastAngle;
-                    nowAngle = (nextPoint - OPoint).y > 0 ? nowAngle : 360f - nowAngle;
-
-                    if ((lastPoint - OPoint).y == 0)
-                    {
-                        if ((lastPoint - OPoint).x < 0)
-                            lastAngle = 0f;
-                    }
-                    if ((nextPoint - OPoint).y == 0)
-                    {
-                        if ((nextPoint - OPoint).x < 0)
-                            nowAngle = 360f;
-
-                    }
-                    //Debug.Log(lastAngle);
-                    if (lastAngle > nowAngle)
-                        errorTime++;
-                    if (lastAngle < nowAngle)
-                        RightTime++;
-                }
-            }
-            //Debug.Log("errorTime="+ errorTime);
-            //Debug.Log("RightTime=" + RightTime);
-            if (errorTime <= AllowErrorTimes)
-                return ClockDirection.Clockwise;
-            else if (RightTime <= AllowErrorTimes)
-                return ClockDirection.Counterclockwise;
-            else
-                return (0);
-        }
-        /// <summary>
-        /// 判断多边形是顺时针还是逆时针 （夹角大小差值）
-        /// </summary>
-        /// <param name="points">鼠标点</param>
-        /// <param name="isXAxixToLeft">true:X轴向左(屏幕坐标系),false:X轴向右为正(一般的坐标系)</param>
-        /// <param name="AllowErrorAngle">允许范围误差</param>
-        /// <returns></returns>
-        public static ClockDirection CalculateClockDirection(List<Vector2> points, bool isXAxixToLeft, float AllowErrorAngle)
-        {
-            float lastAngle = 0.0f;
-            Vector2 centerPoint = new Vector2(-1f, -1f);
-            int yTrans = isXAxixToLeft ? (-1) : (1);
-            Vector2 normalDir = new Vector2(yTrans, 0);
-            if (points.Count < 3)
-                return (0);
-            if (centerPoint.x == -1)
-                centerPoint = points[0];
-            for (int i = 1; i < points.Count; i++)
-            {
-                Vector2 ndir = points[i] - centerPoint;
-                ndir.Normalize();
-                float currentAngle = Vector2.Angle(normalDir, ndir);
-                if (points[i].y < centerPoint.y)
-                {
-                    currentAngle = 360 - currentAngle;
-                }
-                if (currentAngle != lastAngle && Mathf.Abs(currentAngle - lastAngle) > AllowErrorAngle && currentAngle != 90 && currentAngle != 0 && currentAngle != 180 && currentAngle != 270)
-                {
-                    if (Mathf.Abs(currentAngle - lastAngle) <= 300)
-                    {
-                        if (currentAngle <= lastAngle)
-                            return ClockDirection.Counterclockwise;
-                    }
-                    lastAngle = currentAngle;
-                }
-            }
-            return ClockDirection.Clockwise;
         }
         #endregion
 
@@ -328,12 +224,6 @@ namespace MisTexturePoint
         Draw,
     }
 
-    public enum CastMode
-    {
-        Ray,
-        Rays,
-        Plane
-    }
     /// <summary>
     /// 绘制类：可用于模拟消毒并检测消毒留白以及方向
     /// 时间：2017/3/20
@@ -346,6 +236,56 @@ namespace MisTexturePoint
         /// </summary>
         /// <param name="re"></param>
         public delegate void CheckDelagate(bool re);
+
+        class LeaveWhiteParam
+        {
+            public void isCheckLeave()
+            {
+                while (!mInstance.stopThread)
+                {
+                    if (mInstance.threadMutex)
+                    {
+                        //Debug.Log("线程信息：留白线程执行中...");
+                        bool re = mInstance.isGetLeaveNoteAreaByThread(mInstance.MColor,mInstance.threadRaio, mInstance.limitList);
+                        if (re)
+                        {
+                            mInstance.isLeaveWhite = true;
+                        }
+                        else
+                        {
+                            mInstance.isLeaveWhite = false;
+                        }
+                    }
+
+                    if (mInstance.threadRadius)
+                    {
+                        //Debug.Log("线程信息：半径线程执行中...");
+                        float re = mInstance.getMaxRadius();
+                        if (re > (mInstance.mRangeRadius + mInstance.mRangeRadius * 0.25f))
+                        {
+                            mInstance.isRadiusError = true;
+                        }
+                        else
+                        {
+                            mInstance.isRadiusError = false;
+                        }
+                    }
+
+                    if(mInstance.threadDistance)
+                    {
+                        Vector2 p = (mInstance.currentPoint - mInstance.firstCenter).normalized * 80 + mInstance.currentPoint;
+                        if (mInstance.pixels[(int)p.x, (int)p.y] == mInstance.MColor)
+                        {
+                            mInstance.isFromOutToIn = true;
+                        }
+                        else
+                        {
+                             mInstance.isFromOutToIn = false;
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 控制检测留白状态
@@ -364,9 +304,7 @@ namespace MisTexturePoint
         //鼠标当前点击位置
         Vector2 currentPoint = Vector2.zero;
 
-        private CastMode m_castMode = CastMode.Ray;
-
-        float m_castSize = 0.2f;
+        
 
         /// <summary>
         /// 是否留白
@@ -384,10 +322,6 @@ namespace MisTexturePoint
         /// </summary>
         public static CTexturePoint mInstance;
 
-        Vector2 uvPoint = Vector2.zero;
-
-
-
 #region 贴图变量
         /// <summary>
         /// 用以保存最开始的贴图
@@ -398,17 +332,7 @@ namespace MisTexturePoint
         /// 拿来修改用的贴图,显示给用户看的
         /// </summary>
         Texture2D originalTexture;
-        
-        /// <summary>
-        /// 检测的图片
-        /// </summary>
-        public Texture2D CheckTexture
-        {
-            get
-            {
-                return originalTexture;
-            }
-        }
+
         //实际主贴图
         Texture2D mirrorTexture;
 #endregion
@@ -456,21 +380,13 @@ namespace MisTexturePoint
             get { return mColor; }
             set { mColor = value; }
         }
-        
-        public brushStyle mBrushStyle;
 
         /// <summary>
-        /// 画刷圆形半径
+        /// 渲染区域半径
         /// </summary>
-        [Tooltip("画刷圆形半径")]
+        [Tooltip("绘图半径")]
         public int mRadius = 1;
     
-
-        /// <summary>
-        /// 画刷矩形宽高
-        /// </summary>
-        [Tooltip("画刷矩形宽高")]
-        public Vector2 mRect = Vector2.zero;
 
         /// <summary>
         /// 是否显示边界区域
@@ -480,18 +396,24 @@ namespace MisTexturePoint
         /// <summary>
         /// 区域范围边界粗细
         /// </summary>
-        //[Tooltip("边界绘图半径")]
-         int areaRadius = 5;
+        [Tooltip("边界绘图半径")]
+        public int areaRadius = 5;
 
         /// <summary>
         /// 区域范围边界颜色
         /// </summary>
-        //[Tooltip("边界绘图颜色")]
-         Color areaColor = Color.blue;
+        [Tooltip("边界绘图颜色")]
+        public Color areaColor = Color.blue;
 #endregion
 
-       
+        //消毒区域半径
+        float mRangeRadius = 0;
+        List<Vector2> clockPoint = new List<Vector2>();
 #region 检测线程
+        /// <summary>
+        /// 留白检测线程
+        /// </summary>
+        Thread leaveWhiteThread;
 
         /// <summary>
         /// 像素数组
@@ -504,42 +426,53 @@ namespace MisTexturePoint
         public Material material;
 
         /// <summary>
-        /// 消毒区域点
+        /// 线程参数
         /// </summary>
-        List<Vector2> drawPoint = new List<Vector2>();
+        LeaveWhiteParam lp;
+
+        /// <summary>
+        /// 控制线程检测状态
+        /// </summary>
+        bool stopThread = false;
 #endregion
 
+        private bool _judge = false;
+        private Vector2 _anchor;//偏移的圆心
+        private Vector2 _lastPoint;  //上一帧坐标
+
+        //标记圆心
+        Vector2 centerPoint = Vector2.zero;
+
+       
+
+        //当前绘制的距圆心的最大距离
+        float curretMaxRadius = 0;
+
+        //传入线程的参数
+        Color threadColor;
+        //传入线程的参数
+        float threadRaio;
+
+        CheckDelagate OnClockWise;//是否顺时针
+        CheckDelagate OnLeaveWhite;//留白回调
+        CheckDelagate OnCheckRadius;//半径回调-检测是否超出范围
+        CheckDelagate OnRadiusDistance;//半径回调-检测是否从里向外
 
         void Awake()
         {
             mInstance = this;
-            if (material.name == "assistBoardMan" || material.name == "assistBoardWoMan")// || material.name == "daoniaoguan"*/
-            {
-                material = UIRoot.Instance.UIResources[material.name] as Material;
-                material.shader = Shader.Find("Standard");
-                gameObject.GetComponent<SkinnedMeshRenderer>().material = material;              
-            }
             textureMap = material.mainTexture as Texture2D;
             if (textureMap == null)
             {
                 textureMap = new Texture2D(1024, 1024);
             }
-
             originalTexture = new Texture2D(textureMap.width, textureMap.height,TextureFormat.ARGB32,false);
+            //originalTexture.alphaIsTransparency = true;
             mirrorTexture = new Texture2D(textureMap.width, textureMap.height);
-            byte[] bys = textureMap.GetRawTextureData();
-            mirrorTexture.LoadRawTextureData(bys);
+            mirrorTexture.LoadRawTextureData(textureMap.GetRawTextureData());
             mirrorTexture.Apply();
-            
-            material.mainTexture = mirrorTexture;
-            material.SetTexture("_DetailAlbedoMap", originalTexture);
-            material.EnableKeyword("_DETAIL_MULX2");
-            if (pixels == null || pixels.Length == 0)
-            {
-                pixels = new Color[originalTexture.height, originalTexture.width];
-                StartCoroutine("fillPixels");
-            }
-
+           // material.mainTexture = mirrorTexture;
+           
             for (int i = 0; i <= textureMap.width; i++)
             {
                 for (int j = 0; j <= textureMap.height; j++)
@@ -547,9 +480,10 @@ namespace MisTexturePoint
                     originalTexture.SetPixel(i, j, new Color(1, 1, 1, 0));
                 }
             }
-             originalTexture.Apply();
-        }
 
+             originalTexture.Apply();
+           
+        }
 
         /// <summary>
         /// This function is called when the object becomes enabled and active.
@@ -564,9 +498,6 @@ namespace MisTexturePoint
                 pixels = new Color[originalTexture.height, originalTexture.width];
                 StartCoroutine("fillPixels");
             }
-#if Test
-            f = 100;
-#endif
         }
 
         /// <summary>
@@ -595,24 +526,44 @@ namespace MisTexturePoint
         /// </summary>
         void OnGUI()
         {
-
+            // GUILayout.Label("MColor="+MColor);
+            // GUILayout.Label("threadRaio="+threadRaio);
+            // GUILayout.Label("threadMutex="+threadMutex);
+            // GUILayout.Label("stopThread="+stopThread);
         }
         // Use this for initialization
         void Start()
         {
+            curretMaxRadius = 0;
             setRenderParam(mColor, mRadius);
-            fixedTex = UIRoot.Instance.UIResources["shengzhiqi_White" + "_T"] as Texture2D;
-            getFixBoard();
+        }
+
+        void LateUpdate()
+        {
+            if (pointQueue.Count > 0)
+            {
+                setPoint(pointQueue.Dequeue(), mColor, mRadius);
+                // ClockDirection cd = judgeClock();
+                // if (cd == ClockDirection.Clockwise)
+                //     OnClockWise(true);
+                // else if (cd == ClockDirection.Counterclockwise)
+                //     OnClockWise(false);
+            }
+
+            if (limitPointList.Count > 0 && showBoard == true)
+            {
+                setPoint(limitPointList.Dequeue(), areaColor, areaRadius, PointStatus.LimitBoard);
+                if (limitPointList.Count == 0)
+                {
+                    showBoard = false;
+                }
+            }
         }
 
         public void setMainTextureColor(Color pColor)
         {
             material.SetColor("_Color",pColor);
         }
-#if Test
-        float f=200;
-#endif
-        GameObject cut = null;
         // Update is called once per frame
         void Update()
         {
@@ -622,127 +573,81 @@ namespace MisTexturePoint
                 {
                     forwardMousePosition = Input.mousePosition;
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-
-                    if (m_castMode == CastMode.Ray)
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit))
+                        if (hit.collider.name == gameObject.name)
                         {
-                            if (hit.collider.name == gameObject.name)
-                            {
-                                uvPoint = hit.textureCoord;
-                                uvPoint.x *= originalTexture.width;
-                                uvPoint.y *= originalTexture.height;
-                                pointQueue.Enqueue(uvPoint);
-                            }
+                            _lastPoint = Input.mousePosition;
+                            _anchor = _lastPoint - new Vector2(0, 50);//鼠标点击 在点击位置下方设置偏移一定数值的圆心（具体偏移量看实际运用
+                            _judge = true;
+
+                            Vector2 uvPoint = hit.textureCoord;
+                            uvPoint.x *= originalTexture.width;
+                            uvPoint.y *= originalTexture.height;
+                            pointQueue.Enqueue(uvPoint);
+                            if(firstCenter == Vector2.zero)
+                                firstCenter = uvPoint;
+
+                            float value = Vector2.Distance(uvPoint, centerPoint);
+                            float off = Vector2.Distance(uvPoint,firstCenter);
+                            currentPoint = uvPoint;
+                            // Vector2 p = (uvPoint - firstCenter).normalized*40+uvPoint;
+                            // if(originalTexture.GetPixel((int)p.x,(int)p.y)==MColor)
+                            // {
+                            //     OnRadiusDistance(false);
+                            // }
+                            // else
+                            // {
+                            //     OnRadiusDistance(true);
+                            // }
+                            if(pointList.Count>20)
+                                OnRadiusDistance(!isFromOutToIn);
+                            if (value > curretMaxRadius)
+                                curretMaxRadius = value;
+                            
                         }
                     }
-                    else if (m_castMode == CastMode.Plane)
-                    {
-                        RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit))
-                        {
-                            if (hit.collider.name == gameObject.name)
-                            {
-                                //Debug.Log("碰！！！！！");
-                                Vector2 temp = uvPoint;
-                                uvPoint = hit.textureCoord;
-                                uvPoint.x *= originalTexture.width;
-                                uvPoint.y *= originalTexture.height;
-                                if (temp != Vector2.zero)
-                                {
-                                    float count= Vector2.Distance(temp, uvPoint) / (2 * mRadius);
-
-                                    while (count > 0.5f)
-                                    {
-                                        temp += (uvPoint - temp).normalized * mRadius;
-                                        pointQueue.Enqueue(temp);
-                                        count = Vector2.Distance(temp, uvPoint) / (2 * mRadius);
-                                    }
-                                }
-                                pointQueue.Enqueue(uvPoint);
-                            }
-                            else
-                            {
-                                uvPoint = Vector2.zero;
-                            }
-                        }
-                    }
-                    else if (m_castMode == CastMode.Rays)
-                    {
-
-                    }
                 }
 
             }
-            else
+
+            if (Input.GetMouseButtonUp(0))
             {
-                uvPoint = Vector2.zero;
+                
+                clockPoint.Clear();
+                if (_judge)
+                {
+                    _judge = false;
+                    OnLeaveWhite(mInstance.isLeaveWhite);
+                    OnCheckRadius(!mInstance.isRadiusError);
+                }
+                firstCenter = Vector2.zero;
             }
-        }
-        /// <summary>
-        /// LateUpdate is called every frame, if the Behaviour is enabled.
-        /// It is called after all Update functions have been called.
-        /// </summary>
-        void LateUpdate()
-        {
-            #region  绘制点
-            if (pointQueue.Count > 0)
+
+            if (_judge)
             {
-                // Debug.Log("绘制点");
-                if (mBrushStyle == brushStyle.Rect)
-                {
-                    Vector2 r = Vector2.zero;
-                    if (mRect.x == 0)
-                        r.x = originalTexture.height;
-                    else
-                        r.x = mRect.x;
-
-                    if (mRect.y == 0)
-                        r.y = originalTexture.width;
-                    else
-                        r.y = mRect.y;
-
-                    setPoint(pointQueue.Dequeue(), mColor, r.x, r.y);
-                }
-
-                else if (mBrushStyle == brushStyle.Circle)
-                {
-                    if (CGlobal.productName.Contains("男"))
-                        setFixPoint(pointQueue.Dequeue(), mColor, mRadius);
-                    else
-                        setPoint(pointQueue.Dequeue(), mColor, mRadius);
-                }
-
+                
+                //float re = TouchJudge(Input.mousePosition, ref _lastPoint, _anchor);
+            
+                // if (re > 0)
+                //     OnClockWise(true);
+                // else if (re < 0)
+                // {
+                //     OnClockWise(false);
+                // }
 
             }
-            #endregion
         }
 
-        public void SetCastMode(CastMode _mode, float radius)
-        {
-            m_castMode = _mode;
-            m_castSize = radius;
-        }
-        CTexturePoint yinjing;
         /// <summary>
         /// 退出
         /// </summary>
         private void OnApplicationQuit()
         {
-            StopAllCoroutines();
-            if (CGlobal.productCode!="200")
-            {
-                if (textureMap != null)
-                    material.mainTexture = textureMap;
-            }
-            else
-            {
-                yinjing = GameObject.Find("Models").transform.Find("sickRoom/patient/UC_Patient/man/man_status/yinjing").GetComponent<CTexturePoint>();//下垂
-                if (yinjing != null)
-                    yinjing.material.mainTexture = UIRoot.Instance.UIResources["shengzhiqi_B" + "_T"] as Texture2D;
-            }
+            closeLeaveWhite();
+            if(textureMap!=null)
+                material.mainTexture = textureMap;
         }
 
         /// <summary>
@@ -750,9 +655,76 @@ namespace MisTexturePoint
         /// </summary>
         public void clearCheckCache()
         {
+            curretMaxRadius = 0;
             StartCoroutine("fillPixels");
         }
 
+        /// <summary>
+        /// 线程开始启动留白检测
+        /// </summary>
+        /// <param name="pColor">消毒颜色</param>
+        /// <param name="ratio">留白比例</param>
+        /// <param name="points">检测区域(以点组成的多边形)</param>
+        /// <param name="callFun">检测完成，执行回调</param>
+        public void startCheckLeaveWhite(Color pColor, float ratio)
+        {
+            threadRaio = ratio;
+            
+            isLeaveWhite = true;
+            if(lp==null)
+                lp  = new LeaveWhiteParam();
+            //resetCheck();
+            if (leaveWhiteThread == null)
+            {
+                leaveWhiteThread = new Thread(lp.isCheckLeave);
+                leaveWhiteThread.IsBackground = true;
+                leaveWhiteThread.Start();
+                //Debug.Log("线程信息：首次启动留白检测！");
+            }
+            else
+            {
+                //Debug.Log("线程信息：线程不为空，状态是：" + leaveWhiteThread.ThreadState);
+                //Debug.Log("线程信息：IsAlive=" + leaveWhiteThread.IsAlive);
+             
+            }
+            threadMutex = false;
+            threadRadius = false;
+            threadDistance = false;
+            stopThread = false;
+        }
+
+        /// <summary>
+        /// 停止留白检测
+        /// </summary>
+        public void closeLeaveWhite()
+        {
+            //Debug.Log("线程信息：关闭留白检测！");
+            threadMutex = false;
+            threadRadius = false;
+            threadDistance = false;
+            stopThread = true;
+        }
+
+        public void EnableCheckThread(bool isEnabled=true)
+        {
+           // startCheckLeaveWhite(pColor,pRadio);
+            curretMaxRadius = 0;
+            isLeaveWhite = true;
+            isRadiusError = false;
+            isFromOutToIn = false;
+            clockPoint.Clear();
+            threadMutex = isEnabled;
+            threadRadius = isEnabled;
+            threadDistance = isEnabled;
+            //stopThread = false;
+            
+        }
+
+        public void clearMark()
+        {
+            mirrorTexture.LoadRawTextureData(textureMap.GetRawTextureData());
+            mirrorTexture.Apply();
+        }
 
         public void cancleDraw()
         {
@@ -779,20 +751,76 @@ namespace MisTexturePoint
         }
 
         /// <summary>
+        /// 注册回调检测
+        /// </summary>
+        /// <param name="pColor">绘制色彩</param>
+        /// <param name="pRadius">绘制粗细度</param>
+
+        public void SetCallBack(CheckDelagate callbackLeaveWhite, CheckDelagate callbackClockwise, CheckDelagate callbackRadius, CheckDelagate callbackDistance)
+        {
+            OnLeaveWhite = callbackLeaveWhite;
+            OnClockWise = callbackClockwise;
+            OnCheckRadius = callbackRadius;
+            OnRadiusDistance = callbackDistance;
+        }
+        /// <summary>
         /// 恢复材质,清楚所有内容
         /// </summary>
         public void resetMaterial()
         {
             material.mainTexture = textureMap;
+            resetDrawContent();
         }
 
         /// <summary>
-        /// 恢复材质
+        /// 恢复材质但保留标记
         /// </summary>
         public void resetMaterial(Vector2 markPoint, Color pColor, float length, float radius)
         {
+            curretMaxRadius = 0;
+            //resetDrawContent();
             mirrorTexture.LoadRawTextureData(textureMap.GetRawTextureData());
             mirrorTexture.Apply();
+            //material.mainTexture = mirrorTexture;
+            correctionMarkPoint(markPoint, pColor, length, radius);
+        }
+
+        /// <summary>
+        /// 清除所有已经绘画的内容，除了标记的内容
+        /// </summary>
+        public void resetDrawContent()
+        {
+            pointList.Clear();
+            curretMaxRadius = 0;
+            if (originalTexture == null)
+                originalTexture = new Texture2D(textureMap.width, textureMap.height);
+            for (int i = 0; i <= textureMap.width; i++)
+            {
+                for (int j = 0; j <= textureMap.height; j++)
+                {
+                    originalTexture.SetPixel(i, j, new Color(1, 1, 1, 0));
+                }
+            }
+            originalTexture.Apply();
+        }
+
+        /// <summary>
+        /// 清除所有已经绘画的内容，除了标记和显示范围的内容
+        /// </summary>
+        public void resetDrawContentWithoutBoard(Vector2 markPoint, int radius)
+        {
+            curretMaxRadius = 0;
+            if (originalTexture == null)
+                originalTexture = new Texture2D(textureMap.width, textureMap.height);
+            for (int i = 0; i <= textureMap.width; i++)
+            {
+                for (int j = 0; j <= textureMap.height; j++)
+                {
+                    originalTexture.SetPixel(i, j, new Color(1, 1, 1, 0));
+                }
+            }
+            originalTexture.Apply();
+            //setAreaByPoints(markPoint, radius);
         }
 
         /// <summary>
@@ -802,6 +830,7 @@ namespace MisTexturePoint
         {
             pointList.Clear();
             limitPointList.Clear();
+            clockPoint.Clear();
             threadMutex = false;
             threadRadius = false;
             threadDistance = false;
@@ -811,15 +840,10 @@ namespace MisTexturePoint
             isRadiusError = false;
             isFromOutToIn = false;
             StartCoroutine("fillPixels");
-
-
-            drawPoint.Clear();
-            leftPoints.Clear();
-            rightPoints.Clear();
         }
 
         /// <summary>
-        /// 绘制点-圆形
+        /// 绘制点
         /// </summary>
         /// <param name="pPoint">点</param>
         /// <param name="pColor">绘制颜色</param>
@@ -827,10 +851,6 @@ namespace MisTexturePoint
         /// <param name="isLimitBoard">是否显示边框</param>
         void setPoint(Vector2 pPoint, Color pColor, float pRadius, PointStatus status = PointStatus.Draw)
         {
-#if Test
-            f += 0.5f;
-            pColor.a = f / 255;
-#endif
             int maxX = (int)(pPoint.x + pRadius);
             int minX = (int)(pPoint.x - pRadius);
             int maxY = (int)(pPoint.y + pRadius);
@@ -847,6 +867,13 @@ namespace MisTexturePoint
             if (status == PointStatus.Draw)
             {
                 pointList.Add(pPoint);
+                if(clockPoint.Count<=2)
+                    clockPoint.Add(pPoint);
+                else
+                    {
+                        clockPoint.RemoveAt(0);
+                        clockPoint.Add(pPoint);
+                    }
             }
                 
             for (int i = minX; i < maxX; i++)
@@ -859,12 +886,13 @@ namespace MisTexturePoint
                         {
                             originalTexture.SetPixel(i, j, pColor);
                             pixels[i, j] = pColor;
-                            drawPoint.Add(new Vector2(i, j));
                         }
                         else
                         {
                             mirrorTexture.SetPixel(i, j, pColor);
                         }
+
+
                     }
                 }
             }
@@ -879,287 +907,76 @@ namespace MisTexturePoint
         }
 
         /// <summary>
-        /// 绘制点-矩形
+        /// 线程内检测是否留白
         /// </summary>
-        /// <param name="pPoint">点</param>
-        /// <param name="pColor">绘制颜色</param>
-        /// <param name="pWeight">宽度(x)</param>
-        /// <param name="pHeight">高度(y)</param>
-        /// <param name="isLimitBoard">是否显示边框</param>
-        void setPoint(Vector2 pPoint, Color pColor, float pWeight,float pHeight, PointStatus status = PointStatus.Draw)
+        /// <param name="pColor"></param>
+        /// <param name="ratio"></param>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        bool isGetLeaveNoteAreaByThread(Color pColor, float ratio, List<Vector2> points)
         {
+            limitPointList.Clear();
+            int count = 0;
+            int Total = 0;
 
-#if Test
-            f += 0.5f;
-            pColor.a = f/255;
-#endif
-            //Debug.Log("point="+pPoint);
-            int maxX = (int)(pPoint.x + pWeight);
-            int minX = (int)(pPoint.x - pWeight);
-            int maxY = (int)(pPoint.y + pHeight);
-            int minY = (int)(pPoint.y - pHeight);
-
-            if (minX < 0)
-                minX = 0;
-            if (minY < 0)
-                minY = 0;
-            if (maxX > originalTexture.width)
-                maxX = originalTexture.width;
-            if (maxY > originalTexture.height)
-                maxY = originalTexture.height;
-            if (status == PointStatus.Draw)
+            for (int i = 0; i < pixels.GetLength(0); i++)
             {
-                pointList.Add(pPoint);
-            }
-
-            for (int i = minX; i < maxX; i++)
-            {
-                for (int j = minY; j < maxY; j++)
+                for (int j = 0; j < pixels.GetLength(1); j++)
                 {
-
-                    if (status == PointStatus.Draw)
+                    if (Vector2.Distance(centerPoint, new Vector2(i, j)) <= mRangeRadius)
                     {
-                        originalTexture.SetPixel(i, j, pColor);
-                        pixels[i, j] = pColor;
-                    }
-                    else
-                    {
-                        mirrorTexture.SetPixel(i, j, pColor);
+                        Total++;
                     }
                 }
             }
-            if (status == PointStatus.Draw)
+           
+            for (int i = 0; i < pixels.GetLength(0); i++)
             {
-                originalTexture.Apply();
+                for (int j = 0; j < pixels.GetLength(1); j++)
+                {
+                    if (Vector2.Distance(centerPoint, new Vector2(i, j)) <= mRangeRadius)
+                    {
+                        if (pixels[i, j] != pColor)
+                        {
+                            count++;
+                            pixels[i, j] = Color.blue;
+                            if (count > Total * ratio)
+                                return true;
+                        }
+                    }
+                }
             }
-            else
-            {
-                mirrorTexture.Apply();
-            }
+
+            // for (int i = 0; i < pixels.GetLength(0); i++)
+            // {
+            //     for (int j = 0; j < pixels.GetLength(1); j++)
+            //     {
+            //         if (Polygon.isInRegion(new Vector2(i, j), points))
+            //         {
+            //             Total++;
+            //         }
+            //     }
+            // }
+            // for (int i = 0; i < pixels.GetLength(0); i++)
+            // {
+            //     for (int j = 0; j < pixels.GetLength(1); j++)
+            //     {
+            //         if (Polygon.isInRegion(new Vector2(i, j), points))
+            //         {
+            //             if (pixels[i, j] != pColor)
+            //             {
+            //                 count++;
+            //                 pixels[i, j] = Color.yellow;
+            //                 if (count > Total * ratio)
+            //                     return true;
+            //             }
+            //         }
+            //     }
+            // }
+
+            return false;
         }
 
-        /// <summary>
-        /// 绘制点-修补圆形
-        /// </summary>
-        /// <param name="pPoint">点</param>
-        /// <param name="pColor">绘制颜色</param>
-        /// <param name="pRadius">范围半径</param>
-        /// <param name="isLimitBoard">是否显示边框</param>
-        void setFixPoint(Vector2 pPoint, Color pColor, float pRadius, PointStatus status = PointStatus.Draw)
-        {
-            pPoint = new Vector2((int)(pPoint.x), (int)(pPoint.y));
-            Vector2 tempPoint1 = new Vector2(-1f,-1f);//同y近侧点
-            Vector2 tempPoint2 = new Vector2(-1f, -1f);//同y对侧点
-
-            Vector2 tempPoint3 = new Vector2(-1f, -1f);//同y近侧点
-            Vector2 tempPoint4 = new Vector2(-1f, -1f);//同y对侧点
-            Vector2 pPointReflect = new Vector2(-1f, -1f);//映射圆心点
-
-            Vector2 Apoint = Vector2.zero;
-            Vector2 Bpoint = Vector2.zero;
-            float firstDis = -2;
-            bool isLeft=false;
-
-            int index1 = -1;
-            int index2 = -1;
-            int indexTpm = -1;
-            #region 近侧点在左
-            foreach (var item in leftPoints)
-            {
-                indexTpm++;
-                if (Vector2.Distance(item, pPoint) <= pRadius)
-                {
-                    if(index1 == -1)
-                    {
-                        index1 = indexTpm;
-                    }
-                    else
-                    {
-                        index2 = indexTpm;
-                    }
-                }
-            }
-            
-            if (index1 != -1 && index2 != -1)
-            {
-                tempPoint1 = leftPoints[index1];
-                tempPoint2 = leftPoints[index2];
-                //Apoint = (tempPoint1 + tempPoint2) / 2;
-                Apoint = leftPoints[(index2 + index1) / 2];
-                Apoint = new Vector2((int)Apoint.x, (int)Apoint.y);
-                firstDis = Vector2.Distance(Apoint, pPoint);
-                tempPoint3 = rightPoints[(index1 / leftPoints.Count) * rightPoints.Count];
-                tempPoint4 = rightPoints[(index2 / leftPoints.Count) * rightPoints.Count];
-                //Bpoint = (tempPoint3 + tempPoint4) / 2;
-                Bpoint = rightPoints[(index1 + index2) / 2];
-                Bpoint = new Vector2((int)Bpoint.x, (int)Bpoint.y);
-
-                Vector2 nortmp = tempPoint3 - tempPoint4;
-                Vector2 normal = new Vector2(1, -nortmp.x / nortmp.y);
-                pPointReflect = Bpoint+ normal.normalized * (firstDis);
-                //pPointReflect = Bpoint - new Vector2(Apoint.x - pPoint.x- pRadius, 0);
-            }
-            #endregion
-            else
-            {
-                indexTpm = -1;
-                index1 = -1;
-                index2 = -1;
-                #region  近侧点在右
-                foreach (var item in rightPoints)
-                {
-                    indexTpm++;
-                    if (Vector2.Distance(item, pPoint) <= pRadius)
-                    {
-                        if (index1 == -1)
-                        {
-                            index1 = indexTpm;
-                        }
-                        else
-                        {
-                            index2 = indexTpm;
-                        }
-                    }
-                }
-                if (index1 != -1 && index2 != -1)
-                {
-                    tempPoint1 = rightPoints[index1];
-                    tempPoint2 = rightPoints[index2];
-                    //Apoint = (tempPoint1 + tempPoint2) / 2;
-                    Apoint = rightPoints[(index2+ index1)/2];
-                    Apoint = new Vector2((int)Apoint.x, (int)Apoint.y);
-                    firstDis = Vector2.Distance(Apoint, pPoint);
-                    tempPoint3 = leftPoints[(index1 / rightPoints.Count) * leftPoints.Count];
-                    tempPoint4 = leftPoints[(index1 / rightPoints.Count) * leftPoints.Count];
-                    //foreach (var item2 in leftPoints)
-                    //{
-                    //    if (item2.y == tempPoint1.y)
-                    //        tempPoint3 = item2;
-                    //    if (item2.y == tempPoint2.y)
-                    //        tempPoint4 = item2;
-                    //    if (tempPoint3.x != -1 || tempPoint4.x != -1)
-                    //        break;
-                    //}
-                    //Bpoint= (tempPoint3 + tempPoint4) / 2;
-                    Bpoint = leftPoints[(index1 + index2) / 2];
-                    Bpoint = new Vector2((int)Bpoint.x, (int)Bpoint.y);
-                    Vector2 nortmp = tempPoint3 - tempPoint4;
-                    Vector2 normal = new Vector2(-1, nortmp.x / nortmp.y);
-                     pPointReflect = Bpoint+ normal.normalized * (firstDis);
-                    //pPointReflect = Bpoint - new Vector2(Apoint.x - pPoint.x - pRadius, 0);
-                    //Debug.Log("tempPoint1" + tempPoint1);
-                    //Debug.Log("tempPoint2" + tempPoint2);
-                    //Debug.Log("tempPoint3" + tempPoint3);
-                    //Debug.Log("tempPoint4" + tempPoint4);
-                    //Debug.Log("normal" + normal);
-                    //Debug.Log("firstDis" + firstDis);
-                    //Debug.Log(pPoint);
-                    //Debug.Log(pPointReflect);
-                }
-                #endregion
-            }
-
-            int maxX1;
-            int minX1;
-            int maxY1;
-            int minY1;
-            if (pPointReflect.x != -1)
-            {
-                maxX1 = (int)(pPointReflect.x + pRadius);
-                minX1 = (int)(pPointReflect.x - pRadius);
-                maxY1 = (int)(pPointReflect.y + pRadius);
-                minY1 = (int)(pPointReflect.y - pRadius);
-
-                if (minX1 < 0)
-                    minX1 = 0;
-                if (minY1 < 0)
-                    minY1 = 0;
-                if (maxX1 > originalTexture.width)
-                    maxX1 = originalTexture.width;
-                if (maxY1 > originalTexture.height)
-                    maxY1 = originalTexture.height;
-
-                if (status == PointStatus.Draw)
-                {
-                    pointList.Add(pPointReflect);
-                }
-                for (int i = minX1; i < maxX1; i++)
-                {
-                    for (int j = minY1; j < maxY1; j++)
-                    {
-                        if (Vector2.Distance(pPointReflect, new Vector2(i, j)) <= pRadius)
-                        {
-                            if (status == PointStatus.Draw)
-                            {
-                                originalTexture.SetPixel(i, j, pColor);
-                                pixels[i, j] = pColor;
-                                drawPoint.Add(new Vector2(i, j));
-                            }
-                            else
-                            {
-                                mirrorTexture.SetPixel(i, j, pColor);
-                            }
-                        }
-                    }
-                }
-            }
-
-            int maxX = (int)(pPoint.x + pRadius);
-            int minX = (int)(pPoint.x - pRadius);
-            int maxY = (int)(pPoint.y + pRadius);
-            int minY = (int)(pPoint.y - pRadius);
-
-            if (minX < 0)
-                minX = 0;
-            if (minY < 0)
-                minY = 0;
-            if (maxX > originalTexture.width)
-                maxX = originalTexture.width;
-            if (maxY > originalTexture.height)
-                maxY = originalTexture.height;
-            if (status == PointStatus.Draw)
-            {
-                pointList.Add(pPoint);
-            }
-
-            for (int i = minX; i < maxX; i++)
-            {
-                for (int j = minY; j < maxY; j++)
-                {
-                    if (Vector2.Distance(pPoint, new Vector2(i, j)) <= pRadius)
-                    {
-                        if (status == PointStatus.Draw)
-                        {
-                            originalTexture.SetPixel(i, j, pColor);
-                            pixels[i, j] = pColor;
-                            drawPoint.Add(new Vector2(i, j));
-                        }
-                        else
-                        {
-                            mirrorTexture.SetPixel(i, j, pColor);
-                        }
-                    }
-                }
-            }
-            //if (pPointReflect.x != -1)
-            //{
-            //    originalTexture.SetPixel((int)tempPoint1.x, (int)tempPoint1.y, new Color(1, 0, 0, 1));
-            //    originalTexture.SetPixel((int)tempPoint2.x, (int)tempPoint2.y, new Color(1, 0, 0, 1));
-            //    originalTexture.SetPixel((int)tempPoint3.x, (int)tempPoint3.y, new Color(1, 0, 0, 1));
-            //    originalTexture.SetPixel((int)tempPoint4.x, (int)tempPoint4.y, new Color(1, 0, 0, 1));
-            //    originalTexture.SetPixel((int)pPoint.x, (int)pPoint.y, new Color(1, 0, 0, 1));
-            //    originalTexture.SetPixel((int)pPointReflect.x, (int)pPointReflect.y, new Color(1, 0, 0, 1));
-
-            //}
-            if (status == PointStatus.Draw)
-            {
-                originalTexture.Apply();
-            }
-            else
-            {
-                mirrorTexture.Apply();
-            }
-        }
         /// <summary>
         /// 判断当前是否是顺时针/逆时针绘制
         /// </summary>
@@ -1186,6 +1003,10 @@ namespace MisTexturePoint
             showBoard = true;
         }
 
+        public void ApplyTexture()
+        {
+             originalTexture.Apply();
+        }
 
         /// <summary>
         /// 设置有效边界区域，并且显示出来，若无需显示，则不必使用
@@ -1193,6 +1014,7 @@ namespace MisTexturePoint
         /// <param name="points"></param>
         public void setAreaByPoints(Vector2 pCenter, int pRadius)
         {
+            mRangeRadius = pRadius;
             showBoard = false;
             limitPointList.Clear();
 
@@ -1226,109 +1048,205 @@ namespace MisTexturePoint
             }
             originalTexture.Apply();
             // showBoard = true;
-            
         }
 
-
-
-        List<Vector2> leftPoints = new List<Vector2>();
-        List<Vector2> rightPoints = new List<Vector2>();
-        Texture2D fixedTex;
-        Color texColorR=new Color(1,0,0,1);
-        Color texColorB = new Color(0, 0, 1, 1);
-        public void getFixBoard()
+        /// <summary>
+        /// 重新校正标记点
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="pColor"></param>
+        /// <param name="length"></param>
+        /// <param name="radius"></param>
+        public void correctionMarkPoint(List<Vector2> points, Color pColor, float length, float radius)
         {
-            for (int i = 0; i < fixedTex.height; i++)
+            if (points == null || points.Count == 0)
             {
-                //bool isFirst = true;
-                //Vector2 firstVector = new Vector2(-1, -1);
-                //Vector2 lastVector = new Vector2(-1, -1);
-                for (int j = 0; j < fixedTex.width; j++)
-                {
-                    //if (fixedTex.GetPixel(j,i) == texColor)
-                    //{
-                    //    if(isFirst == true)
-                    //    {
-                    //        firstVector = new Vector2(j,i);
-                    //        isFirst = false;
-                    //    }
-                    //    else
-                    //    {
-                    //        lastVector= new Vector2(j, i);
-                    //    }
-                    //}
-
-                    if (fixedTex.GetPixel(j, i) == texColorR)
-                        rightPoints.Add(new Vector2(j, i));
-                    if (fixedTex.GetPixel(j, i) == texColorB)
-                        leftPoints.Add(new Vector2(j, i));
-                }
-                //if(firstVector.x != -1 && lastVector.x != -1)
-                //{
-                //    leftPoints.Add(firstVector);
-                //    rightPoints.Add(lastVector);
-                //}
+                Debug.LogWarning("点阵为空，无法校正！");
+                return;
             }
-            // originalTexture.Apply();
+            Vector2 point = points[points.Count / 2];
+            centerPoint = point;
+            int minx = 0;
+            int maxx = 0;
+            int miny = 0;
+            int maxy = 0;
+            minx = (int)(point.x - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxx = (int)(point.x + length / 2);
+            if (maxx > originalTexture.width)
+                maxx = originalTexture.width;
+
+            miny = (int)(point.y - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxy = (int)(point.y + length / 2);
+            if (maxx > originalTexture.height)
+                maxx = originalTexture.height;
+
+            for (int i = minx, j = (int)point.y; i <= maxx; i++)
+            {
+                setPoint(new Vector2(i, j), pColor, radius);
+            }
+
+            for (int i = miny, j = (int)point.x; i <= maxy; i++)
+            {
+                setPoint(new Vector2(j, i), pColor, radius);
+            }
+        }
+
+        IEnumerator correctionMarkPointI(Vector2 point, Color pColor, float length, float radius)
+        {
+            centerPoint = point;
+            int minx = 0;
+            int maxx = 0;
+            int miny = 0;
+            int maxy = 0;
+            minx = (int)(point.x - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxx = (int)(point.x + length / 2);
+            if (maxx > originalTexture.width)
+                maxx = originalTexture.width;
+
+            miny = (int)(point.y - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxy = (int)(point.y + length / 2);
+            if (maxx > originalTexture.height)
+                maxx = originalTexture.height;
+
+            for (int i = minx, j = (int)point.y; i <= maxx; i++)
+            {
+                //setPoint(new Vector2(i, j), pColor, radius, PointStatus.Mark);
+                for(int k=(int)point.y-3;k<(int)point.y+3;k++)
+                {
+                    mirrorTexture.SetPixel(i, k, pColor);
+                }
+            }
+
+            for (int i = miny, j = (int)point.x; i <= maxy; i++)
+            {
+                //setPoint(new Vector2(j, i), pColor, radius, PointStatus.Mark);
+                 for(int k=(int)point.x-3;k<(int)point.x+3;k++)
+                {
+                    mirrorTexture.SetPixel(k, i, pColor);
+                }
+            }
+            yield return 0;
+            mirrorTexture.Apply();
         }
         /// <summary>
-        /// 设置模型第二贴图
+        /// 重新校正标记点
         /// </summary>
-        /// <param name="secondImage"></param>
-        public void SetMateral(Texture2D secondImage)
+        /// <param name="points"></param>
+        /// <param name="pColor"></param>
+        /// <param name="length"></param>
+        /// <param name="radius"></param>
+        public void correctionMarkPoint(Vector2 point, Color pColor, float length, float radius)
         {
-            if (secondImage != null)
-                originalTexture = secondImage;
+            StartCoroutine(correctionMarkPointI(point, pColor, length, radius));
+            return;
+            centerPoint = point;
+        
+            int minx = 0;
+            int maxx = 0;
+            int miny = 0;
+            int maxy = 0;
+            minx = (int)(point.x - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxx = (int)(point.x + length / 2);
+            if (maxx > originalTexture.width)
+                maxx = originalTexture.width;
+
+            miny = (int)(point.y - length / 2);
+            if (minx < 0)
+                minx = 0;
+            maxy = (int)(point.y + length / 2);
+            if (maxx > originalTexture.height)
+                maxx = originalTexture.height;
+
+            for (int i = minx, j = (int)point.y; i <= maxx; i++)
+            {
+                setPoint(new Vector2(i, j), pColor, radius, PointStatus.Mark);
+            }
+
+            for (int i = miny, j = (int)point.x; i <= maxy; i++)
+            {
+                setPoint(new Vector2(j, i), pColor, radius, PointStatus.Mark);
+            }
+        }
+
+        /// <summary>
+        /// 判断顺时针逆时针
+        /// (顺正逆负
+        /// </summary>
+        /// <param name="current">当前坐标</param>
+        /// <param name="last">上个坐标(ref 更新</param>
+        /// <param name="anchor">锚点</param>
+        /// <returns></returns>
+        private float TouchJudge(Vector2 current, ref Vector2 last, Vector2 anchor)
+        {
+            Vector2 lastDir = (last - anchor).normalized;  //上次方向
+            Vector2 currentDir = (current - anchor).normalized;  //当前方向
+
+            float lastDot = Vector2.Dot(Vector2.right, lastDir);
+            float currentDot = Vector2.Dot(Vector2.right, currentDir);
+
+            float lastAngle = last.y < anchor.y//用y点判断上下扇面
+                ? Mathf.Acos(lastDot) * Mathf.Rad2Deg
+                : -Mathf.Acos(lastDot) * Mathf.Rad2Deg;
+
+            float currentAngle = current.y < anchor.y
+                ? Mathf.Acos(currentDot) * Mathf.Rad2Deg
+                : -Mathf.Acos(currentDot) * Mathf.Rad2Deg;
+
+            last = current;
+            return currentAngle - lastAngle;
+        }
+
+        //
+        float getMaxRadius()
+        {
+            return curretMaxRadius;
+        }
+
+        public void writeLeaveNote()
+        {
+            for (int i = 0; i < originalTexture.width; i++)
+            {
+                for (int j = 0; j < originalTexture.height; j++)
+                {
+                    if (pixels[i, j] == Color.blue)
+                        originalTexture.SetPixel(i, j, pixels[i, j]);
+                }
+            }
+            originalTexture.Apply();
+        }
+
+        public ClockDirection judgeClock()
+        {
+            if(clockPoint.Count<2)
+                return ClockDirection.None;
+            float x1 =firstCenter.x;
+            float x2 = clockPoint[0].x;
+            float x3 = clockPoint[1].x;
+            float y1 = firstCenter.y;
+            float y2 = clockPoint[0].y;
+            float y3 = clockPoint[1].y;
+            float re = (x2-x1)*(y3-y1)-(y2-y1)*(x3-x1);
+            if (re < 0)
+                return ClockDirection.Clockwise;
+            else if (re > 0)
+                return ClockDirection.Counterclockwise;
             else
-                originalTexture = new Texture2D(textureMap.width, textureMap.height, TextureFormat.ARGB32, false);
-            material.SetTexture("_DetailAlbedoMap", originalTexture);
-        }
-        /// <summary>
-        /// 临时图保存
-        /// </summary>
-        /// <param name="inTexture"></param>
-        /// <param name="changeLastTex"></param>
-        public void resetDisinfection(Texture2D inTexture, out Texture2D changeLastTex)
-        {
-            Texture2D temp=null;
-            if (inTexture != null)
-            {
-                temp = new Texture2D(inTexture.width, inTexture.height, TextureFormat.ARGB32, false);
-                temp.LoadRawTextureData(inTexture.GetRawTextureData());
-                temp.Apply();
-            }
-            changeLastTex = temp;
+                return ClockDirection.None;
         }
 
-        /// <summary>
-        /// 消毒颜色随时间变浅
-        /// </summary>
-        public void changeColor()
+        public float getStartDistance()
         {
-            List<Vector2> list = new List<Vector2>();
-            for (int i = 0; i < drawPoint.Count; i++)
-            {
-                list.Add(drawPoint[i]);
-            }
-            StartCoroutine("change", list);
-            drawPoint.Clear();
-        }
-        IEnumerator change(List<Vector2> list)
-        {
-            int count = 4;
-            Color temp = originalTexture.GetPixel((int)list[0].x, (int)list[0].y);
-            float max = Mathf.Max(temp.r, temp.g, temp.b,temp.a);
-            for (int j = 0; j < count; j++)
-            {
-                temp = new Color(temp.r < max ? (temp.r + 10 / 255f) : temp.r, temp.g < max ? (temp.g + 10 / 255f) : temp.g, temp.b < max ? (temp.b + 10 / 255f) : temp.b, temp.a);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    originalTexture.SetPixel((int)list[i].x, (int)list[i].y, temp);
-                    pixels[(int)list[i].x, (int)list[i].y] = temp;
-                }
-                originalTexture.Apply();
-                yield return new WaitForSeconds(0.2f);
-            }
+            return Vector2.Distance(centerPoint,firstCenter);
         }
     }
 }

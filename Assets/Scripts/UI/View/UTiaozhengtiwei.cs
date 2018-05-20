@@ -4,29 +4,32 @@ using CFramework;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public delegate void ClickEventHandler(UPageButton imageBtn);
 /// <summary>
 /// 调整体位_人物
 /// </summary>
 public class UTiaozhengtiwei : UPageBase
 {
-    public GameObject StandPeople;
+    public GameObject StandingPeople;
     public GameObject SitPeople;
     public bool isShow;
-    public event ClickEventHandler clickEvent;
+    //委托事件定义
+    public CEvent<UPageButton> clickEvent;
 
     public UTiaozhengtiwei()
     {
-        StandPeople = GameObject.Find("Models").transform.Find("chest_body-new/chest_body_s").gameObject;
-        StandPeople.transform.localPosition = new Vector3(-0.5139443f, -0.002361169f, -0.3850695f);
-        StandPeople.transform.localRotation = Quaternion.Euler(-90, 92.6531f, 0);
-        StandPeople.SetActive(false);
-
+        //站立人model
+        StandingPeople = GameObject.Find("Models").transform.Find("chest_body-new/chest_body_s").gameObject;
+        StandingPeople.transform.localPosition = new Vector3(-0.5139443f, -0.002361169f, -0.3850695f);
+        StandingPeople.transform.localRotation = Quaternion.Euler(-90, 92.6531f, 0);
+        StandingPeople.SetActive(false);
+        //坐着人model
         SitPeople = GameObject.Find("Models").transform.Find("chest_body-new/chest_body").gameObject;
         SitPeople.transform.localPosition = new Vector3(1.187028f, -0.002361169f, 0.2012178f);
         SitPeople.transform.localRotation = Quaternion.Euler(270, 0, 0);
         SitPeople.SetActive(false);
 
+        //其他初期化
+        clickEvent = new CEvent<UPageButton>();
         isShow = false;
     }
     /// <summary>
@@ -71,6 +74,6 @@ public class UTiaozhengtiwei : UPageBase
         btn.LoadSprite(defPath);
         btn.LoadPressSprite(path);
 
-        btn.onClick.AddListener(() => { clickEvent(btn); });
+        btn.onClick.AddListener(() => { clickEvent.Invoke(btn); });
     }
 }

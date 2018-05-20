@@ -31,6 +31,8 @@ public class DrawNarcotic : StepBase
         ButtonVirtualScript.Instance.VirtualButton(KeyCode.DownArrow, new Vector2(220, 100), "推注射器");
         ButtonVirtualScript.Instance.GetButton(KeyCode.DownArrow).onClick.AddListener(BackPlayAnimation);
         GameObject.Find("Models").transform.Find("tools/抽麻药").gameObject.SetActive(true);
+
+        VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "check_anesthetic_correct");
     }
 
     public override void StepStartState()
@@ -42,7 +44,7 @@ public class DrawNarcotic : StepBase
     public override void StepEndState()
     {
         base.StepEndState();
-        //GameObject.Find("Models").transform.Find("tools/抽麻药").gameObject.SetActive(false);
+        GameObject.Find("Models").transform.Find("tools/抽麻药").gameObject.SetActive(false);
     }
 
     void PlayAnimation()
@@ -74,11 +76,16 @@ public class DrawNarcotic : StepBase
     void OnClickOkButton()
     {
         var currentLength = renderer_water.GetBlendShapeWeight(0) / 100;
-        if(currentLength >= 0.4)
+        if (currentLength >= 0.4)
+        {
             State = StepStatus.did;
-        else if(currentLength >0)
+            ButtonVirtualScript.Instance.RemoveVirtualButton();
+            ButtonVirtualScript.Instance.ClearDicButton();
+        }
+        else if (currentLength > 0)
         {
             Debug.Log("扣分");
+            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "start_check_anesthetic");
         }
         else
         {

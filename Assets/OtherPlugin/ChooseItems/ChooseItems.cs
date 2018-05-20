@@ -67,6 +67,28 @@ public class ChooseItems : UIManager
     {
 
     }
+    public void Init(string modelparentpath)
+    {
+        soloItems.Clear();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<soloItem>() != null)
+            {
+                soloItem item = transform.GetChild(i).GetComponent<soloItem>();
+                if (item.target == null)
+                {
+                    var item2 = modelparentpath + "/" + item.gameObject.name; //models/chooseItem/qi_xie_desk/8th_puncture_needle_qxb
+                    int index = item2.IndexOf('/');//index=6
+                     item.target = GameObject.Find(item2.Substring(0, index)).transform.Find(item2.Substring(index + 1)).gameObject;//models/chooseItem/qi_xie_desk/8th_puncture_needle_qxb
+
+                }
+                if (item.target != null)
+                    soloItems.Add(item);
+                else
+                    item.gameObject.SetActive(false);
+            }
+        }
+    }
     public void Init(Dictionary<string, string> modelList)
     {
         //List<_CLASS_SceneModelProperty> modelList
@@ -108,30 +130,23 @@ public class ChooseItems : UIManager
     }
     void CalibrationIcons()
     {
-        GameObject cameraObject = new GameObject();
-        camera = cameraObject.AddComponent<Camera>();
-        //camera = new Camera();
-        cameraObject.name = "tmp";
-        camera.fieldOfView = 45;
-        camera.transform.position = cameraPathTmp;
-        camera.transform.eulerAngles = cameraAngleTmp;
-        foreach (var item in soloItems)
+        foreach (var item in soloItems)//把UI信息带入到对应的modle上（文字和图片）
         {
             if (item.target.activeSelf)
             {
                 //item.gameObject.SetActive(true);
-                Vector3 dir = Camera.main.WorldToScreenPoint(item.target.transform.position);// - camera.WorldToScreenPoint(item.target.transform.position);
+                Vector3 dir = Camera.main.WorldToScreenPoint(item.target.transform.position);// - camera.WorldToScreenPoint(item.target.transform.position);item.transform
                 item.gameObject.transform.position = dir; // += dir;
             }
         }
-        Destroy(cameraObject);
+        //Destroy(cameraObject);//摧毁
     }
     public void StartChooseItems(bool ShowText = true)
     {
         if (first)
         {
             CalibrationIcons();
-            first = false;
+            first = false;//再次进入后不在运行if语句
         }
         isStart = true;
         foreach (var item in soloItems)
@@ -140,7 +155,7 @@ public class ChooseItems : UIManager
             {
                 if (ShowText)
                     item.gameObject.SetActive(true);
-                item.Init();
+                item.Init();//不显modle上UI中的图片
             }
         }
 
@@ -305,8 +320,8 @@ public class ChooseItems : UIManager
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                    SelectItem(hit.collider.name);
+                if (!EventSystem.current.IsPointerOverGameObject())//IsPointerOverGameObject()返回true就是UI
+                    SelectItem(hit.collider.name);//collider碰撞对象
 
             }
         }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using CFramework;
 using UnityEngine;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ public class Tiaozhengtiwei : StepBase
 {
     UTiaozhengtiwei ui = null;
     UPageButton currentButton = null;
+
     public Tiaozhengtiwei()
     {
         //设置镜头
@@ -24,7 +24,7 @@ public class Tiaozhengtiwei : StepBase
     /// </summary>
     public override void CameraMoveFinished()
     {
-        ui.StandPeople.SetActive(true);
+        ui.StandingPeople.SetActive(true);
 
         base.CameraMoveFinished();
     }
@@ -39,7 +39,8 @@ public class Tiaozhengtiwei : StepBase
         {
             if (!ui.isShow)
             {
-                ui.clickEvent += new ClickEventHandler(OnClickImageButton);
+                //添加委托事件
+                ui.clickEvent.AddListener(OnClickImageButton);
 
                 //创建体位图
                 ui.SetTiweiImages(new Dictionary<string, string>
@@ -66,15 +67,18 @@ public class Tiaozhengtiwei : StepBase
             currentButton.LoadSprite(currentButton.sprite.name.Replace("_h", ""));
         }
         currentButton = btn;
-        currentButton.LoadSprite(btn.sprite.name + "_h");
+        currentButton.LoadSprite(btn.pressSprite.name);
 
-        //体位选择错误
+        //体位选择正确
         if (btn.sprite.name.IndexOf("ok") > -1)
         {
-            ui.StandPeople.SetActive(false);
+            ui.StandingPeople.SetActive(false);
             ui.SitPeople.SetActive(true);
+
+            //结束当前步骤
             State = StepStatus.did;
         }
+        //体位选择错误
         else
         {
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "pricked_bone");

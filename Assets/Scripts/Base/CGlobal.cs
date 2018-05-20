@@ -68,6 +68,7 @@ public class CGlobal  {
 
     internal static string scoresheetversion = "";
 
+    public static Vector3 PunctureTexturePoint = new Vector3(0, 0, 0);
 }
 
 /// <summary>

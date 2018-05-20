@@ -204,7 +204,7 @@ namespace CFramework
                 {
                     Umb.rect = new Rect(-500, 500, 460, 100);
                     touxiang.rect = new Rect(-275, 0, 80, 80);
-                    touxiang.LoadImage("nurse_F");
+                    touxiang.LoadImage("k-yisheng");
                 }
                 //病人回答
                 if (audioStyle == AudioStyle.PatientAnswers)
@@ -212,16 +212,16 @@ namespace CFramework
                     Umb.rect = new Rect(700, 0, 460, 100);
                     touxiang.rect = new Rect(-275, 0, 80, 80);
                     if (CGlobal.currentMedicalRecord.sex == "男")
-                        touxiang.LoadImage("patient_M");
+                        touxiang.LoadImage("k-bingren");
                     else
-                        touxiang.LoadImage("patient_F");
+                        touxiang.LoadImage("k-yisheng");
                 }
                 ///护士询问
                 if (audioStyle == AudioStyle.NurseQuestions)
                 {
                     Umb.rect = new Rect(100, 300, 460, 180);
                     touxiang.rect = new Rect(-275, 0, 80, 80);
-                    touxiang.LoadImage("nurse_F");
+                    touxiang.LoadImage("k-yisheng");
                 }
             }
             else

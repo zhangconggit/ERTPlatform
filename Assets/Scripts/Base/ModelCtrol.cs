@@ -58,7 +58,15 @@ namespace CFramework
 
             ;
         }
-
+        static GameObject staModel;
+        public static GameObject Find(string path)
+        {
+            if(staModel == null)
+            {
+                staModel = GameObject.Find("Models");
+            }
+            return staModel.transform.Find(path).gameObject;
+        }
         /// <summary>
         /// Update is called every frame, if the MonoBehaviour is enabled.
         /// </summary>
