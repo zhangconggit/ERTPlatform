@@ -66,9 +66,10 @@ public class CCDisinfection : StepBase
         }
         
 
-        target = man.transform.Find("pos").gameObject;
+        //target = man.transform.Find("pos").gameObject;
         tweezer = Model_Tweezer.Instance;
         texturePoint = man.GetComponent<MisTexturePoint.CTexturePoint>();
+        texturePoint.material = man.transform.GetComponent<MeshRenderer>().materials[1];
 
         tweezer.EnabledTweezel(false);
         texturePoint.enabled = false;
@@ -77,6 +78,7 @@ public class CCDisinfection : StepBase
         mianqian.SetAnchored(AnchoredPosition.right);
         mianqian.rect = new Rect(-150, 0, 200, 200);
         mianqian.LoadSprite("cotton_ball");
+        mianqian.LoadPressSprite("cotton_ball");
 
     }
 
@@ -84,18 +86,9 @@ public class CCDisinfection : StepBase
     {
         base.EnterStep(cameraTime);//调用此接口方能计数
         Debug.Log("进入步骤：" + GetType().Name);
-        
-
-        texturePoint.setRenderParam(disinfectionColor[0], 20);
-        texturePoint.SetCallBack(leaveWhite, clock, radius, radiusDistance);
-        index = 0;
-        texturePoint.startCheckLeaveWhite(disinfectionColor[index], 0.01f);
-        if (texturePoint.isExistAlbedo2())
-        {
-            texturePoint.setMainTextureColor(mainColorEnter);
-        }
+        string ste =fileHelper.ReadIni(GetType().Name, "test", "StepConfig");
+        Debug.Log("test=" + ste);
     }
-
 
     public override void StepFinish()
     {
@@ -103,7 +96,16 @@ public class CCDisinfection : StepBase
         Debug.Log("退出步骤：" + GetType().Name);
         //texturePoint.resetMaterial(markPoint, new Color(140 / 255.0f, 28 / 255.0f, 146 / 255.0f), 100, 3);
     }
-
+    public override void MouseClickModel(RaycastHit obj)
+    {
+        base.MouseClickModel(obj);
+        //Debug.Log(obj.point);
+        Model_Tweezer.Instance.SetTweezerPos(obj.point, obj.normal);
+        ////Vector3 moDir = new Vector3(0, 0, 0);
+        //ModelCtrol.Instance.setModelsOnNormalline(Model_Tweezer.Instance.modelObject, obj.normal, Model_Tweezer.Instance.GetNormorl(), 0);
+        //Model_Tweezer.Instance.modelObject.transform.position = obj.point + obj.normal* Model_Tweezer.Instance.GetLength();
+        ////Model_Tweezer.Instance.SetTweezerPos();
+    }
     //设置开始状态
     public override void StepStartState()
     {
@@ -144,13 +146,66 @@ public class CCDisinfection : StepBase
     //进入步骤相机移动结束
     public override void CameraMoveFinished()
     {
-        Debug.Log("相机移动结束：" + GetType().Name);
+        base.CameraMoveFinished();
+        Model_Tweezer.Instance.modelObject.SetActive(true);
+        texturePoint.setRenderParam(disinfectionColor[0], 20);
+        texturePoint.SetCallBack(leaveWhite, clock, radius, radiusDistance);
+        index = 0;
+        texturePoint.startCheckLeaveWhite(disinfectionColor[index], 0.01f);
+        if (texturePoint.isExistAlbedo2())
+        {
+            texturePoint.setMainTextureColor(mainColorEnter);
+        }
+        texturePoint.enabled = true;
+
         markPoint = CGlobal.PunctureTexturePoint;//new Vector2(741, 393);
         texturePoint.correctionMarkPoint(markPoint, texturePoint.areaColor, 100, 3);//130
         VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "select_nie_zi", true);
         AddScoreItem("2302449");
     }
 
+    public override void StepUpdate()
+    {
+        base.StepUpdate();
+        if(Input.GetMouseButton(0))
+        {
+            Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;//射线的终点
+            if (Physics.Raycast(_ray, out hit))
+            {
+                if(hit.collider.name=="")
+                {
+
+                }
+            }
+        }
+        
+
+        //if(Input.GetKeyDown(KeyCode.A))
+        //{
+        //    Model_Tweezer.Instance.Insert(0.02f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    Model_Tweezer.Instance.Insert(-0.02f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    Model_Tweezer.Instance.RotateY(2f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+        //    Model_Tweezer.Instance.RotateY(-2f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    Model_Tweezer.Instance.RotateX(2f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    Model_Tweezer.Instance.RotateX(-2f);
+        //}
+    }
     //镊子棉球
     public void niezi(bool isClick)
     {

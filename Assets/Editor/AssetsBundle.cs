@@ -153,7 +153,7 @@ public class AssetsBundle : MonoBehaviour
     static void Build_AssetBundleOne()
     {
         string[] paths = Directory.GetDirectories(AssetResoure);
-        string currentFile = fileHelper.ReadIni("Project", "name", ConfigPath);
+        string currentFile = fileHelper.ReadIni("Project", "name", ConfigPath,true);
         foreach (var item in paths)
         {
             string product = item.Substring(item.LastIndexOf('\\') + 1);

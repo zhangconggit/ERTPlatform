@@ -40,7 +40,7 @@ public class fileHelper {
 	//static int index = -1;
 
 
-	static List<iniUnit> read(string path)
+	static List<iniUnit> read(string path,bool local = false)
 	{
       
         List<iniUnit> tmpUnit = new List<iniUnit>();
@@ -51,54 +51,41 @@ public class fileHelper {
         }
         else
         {
-            //index = -1;
-            //iniData.Clear();
-            List<string> allLines = new List<string>();
-            
-            StreamReader sr = new StreamReader(path, Encoding.Default);
-            string line;
-            while ((line = sr.ReadLine()) != null)
+            if (local)
             {
-                if(line.IndexOf(';')>=0)
-                {
-                    line = line.Remove(line.IndexOf(';'));
-                }
-                if(line !=string.Empty)
-                    allLines.Add(line.ToString());
-            }
-            sr.Close();
+                //index = -1;
+                //iniData.Clear();
+                List<string> allLines = new List<string>();
 
-            tmpUnit = paraIni(allLines);
-            dataCache.Add(path, tmpUnit);
+                StreamReader sr = new StreamReader(path, Encoding.Default);
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (line.IndexOf(';') >= 0)
+                    {
+                        line = line.Remove(line.IndexOf(';'));
+                    }
+                    if (line != string.Empty)
+                        allLines.Add(line.ToString());
+                }
+                sr.Close();
+
+                tmpUnit = paraIni(allLines);
+                dataCache.Add(path, tmpUnit);
+            }
+
+            else
+            {
+                TextAsset str = UIRoot.Instance.TxtResources[path] as TextAsset;
+                string[] s = str.text.Split('\n');
+                setConfigText(path, s);
+                tmpUnit = dataCache[path];
+            }
+            
         }
         return tmpUnit;
 	}
 
-    //void paraStringToLine(string str)
-    //{
-    //    List<string> allLines = new List<string>();
-
-    //    string line = "";
-    //    for(int i=0;i<str.Length;i++)
-    //    {
-    //        char str1 = str[i];
-    //        char str2 = str[i + 1];
-    //        if (str[i] == '\r' && str[i + 1] == '\n')
-    //        {
-    //            allLines.Add(line);
-    //            i = i + 1;
-    //            line = "";
-    //        }
-    //        else
-    //        {
-    //            if (str[i] == '\r' || str[i] == '\n')
-    //                continue;
-    //            line += str[i];
-    //        }
-
-    //    }
-
-    //}
 
     static List<iniUnit> paraIni(List<string> allLines )
 	{
@@ -197,9 +184,9 @@ public class fileHelper {
 	/// <param name="section">Section.</param>
 	/// <param name="key">Key.</param>
 	/// <param name="path">Path.</param>
-	public static string ReadIni(string section,string key,string path)
+	public static string ReadIni(string section,string key,string path,bool local = false)
     {
-        List<iniUnit> iniData = read(path);
+        List<iniUnit> iniData = read(path,local);
 		iniUnit  findSection = iniData.Find(data=>
 			{
 				if(data.section == section)
