@@ -37,6 +37,7 @@ namespace CFramework
             baseChooseItems.SetActive(true);
 
             FinishButton = new UPageButton(AnchoredPosition.bottom_right);
+            FinishButton.name = "chooseItemFinishButton";
             FinishButton.SetParent(this);
             FinishButton.rect = new Rect(-150, -100, 200, 70);
             FinishButton.button.transition = ButtonTransition.SpriteSwap;

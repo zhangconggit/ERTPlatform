@@ -5,14 +5,33 @@ using System.Collections.Generic;
 
 public class DrawNarcotic : StepBase
 {
+    Transform transform;
     SkinnedMeshRenderer renderer;
     SkinnedMeshRenderer renderer_water;
+
+    bool isScore = false;
     public DrawNarcotic()
     {
-        renderer = (GameObject.Find("Models").transform.Find("tools/抽麻药/injector").GetComponent<SkinnedMeshRenderer>());
-        renderer_water = (GameObject.Find("Models").transform.Find("tools/抽麻药/liquid_bottle").GetComponent<SkinnedMeshRenderer>());
-        cameraEnterPosition = new Vector3(-0.191f, 0.933f, 0.714f);
-        cameraEnterEuler = new Vector3(12.0851f, 169.0346f, 359.6248f);
+        switch (CGlobal.productName)
+        {
+            case "xqcc":
+                cameraEnterPosition = new Vector3(-0.191f, 0.933f, 0.714f);
+                cameraEnterEuler = new Vector3(12.0851f, 169.0346f, 359.6248f);
+                break;
+            case "yzcc":
+                cameraEnterPosition = new Vector3(-0.872f, 1.188f, 0.042f);
+                cameraEnterEuler = new Vector3(0.8371f, 238.1956f, -0.147f);
+                break;
+            default:
+                break;
+        }
+        transform = GameObject.Find("Models").transform.Find("tools/抽麻药");
+        transform.gameObject.SetActive(true);
+        transform.localPosition = new Vector3(-0.945f, 1.165f, -0.095f);
+        transform.localEulerAngles = new Vector3(358.9196f, 296.9396f, 346.9359f);
+        renderer = GameObject.Find("Models").transform.Find("tools/抽麻药/injector").GetComponent<SkinnedMeshRenderer>();
+        renderer_water = GameObject.Find("Models").transform.Find("tools/抽麻药/liquid_bottle").GetComponent<SkinnedMeshRenderer>();
+
 
         UPageButton okButton = CreateUI<UPageButton>();
         okButton.name = "okButton";
@@ -78,19 +97,33 @@ public class DrawNarcotic : StepBase
         var currentLength = renderer_water.GetBlendShapeWeight(0) / 100;
         if (currentLength >= 0.4)
         {
-            State = StepStatus.did;
+            if (!isScore)
+            {
+                isScore = true;
+                AddScoreItem("10016110");
+            }
             ButtonVirtualScript.Instance.RemoveVirtualButton();
             ButtonVirtualScript.Instance.ClearDicButton();
+            transform.gameObject.SetActive(false);
+            State = StepStatus.did;
         }
         else if (currentLength > 0)
         {
-            Debug.Log("扣分");
-            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "start_check_anesthetic");
+            if (!isScore)
+            {
+                isScore = true;
+                AddScoreItem("10016112");
+            }
+            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "extract_anesthetic_not_enough");
         }
         else
         {
-            Debug.Log("0分");
+            if (!isScore)
+            {
+                isScore = true;
+                AddScoreItem("10016111");
+            }
+            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "extract_anesthetic_not_enough");
         }
-        VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "");
     }
 }

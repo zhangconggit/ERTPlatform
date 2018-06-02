@@ -28,12 +28,12 @@ public class Config : MonoBehaviour
     {
         serverIp = ip;
         Debug.Log("sendIp = " + serverIp);
-        IDataComponentDLL.IDataComponent.GetInstance().setURL(Config.serverIp);
-        IDataComponentDLL.IDataComponent.GetInstance().synchronizationServerTimeSystem();
+        //IDataComponentDLL.IDataComponent.GetInstance().setURL(Config.serverIp);
+        //IDataComponentDLL.IDataComponent.GetInstance().synchronizationServerTimeSystem();
     }
     public void getWebScoreUrl(string url)
     {
-        IDataComponentDLL.IDataComponent.GetInstance().setWebScoreURL(url);
+        //IDataComponentDLL.IDataComponent.GetInstance().setWebScoreURL(url);
     }
 #endif
  
@@ -46,8 +46,9 @@ public class Config : MonoBehaviour
 #else
     public static string appPath = Application.dataPath;
 #endif
-#if UNITY_EDITOR
+
     public static string ConfigPath = appPath + "/StreamingAssets/Config.ini";
+#if UNITY_EDITOR
 #else
     public static string ConfigPath = webIp + "/online/EnemaWeb/StreamingAssets/Config.ini";
 #endif

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<main>
+
+  <step name="SelectScene" chanesename="选择场景">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation></navigation>
+  </step>
+  <step name="Zuozhuangyaoqiu" chanesename="着装要求">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation></navigation>
+  </step>
+  <step name="ChooseGoods" chanesename="选择物品">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>物品选择</navigation>
+  </step>
+  
+  <step name="CheckExplain" chanesename="核对解释">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>核对解释</navigation>
+  </step>
+  <step name="Tiaozhengtiwei" chanesename="调整体位">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>摆体位</navigation>
+  </step>
+  <step name="Kouzhen" chanesename="叩诊">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>摆体位</navigation>
+  </step>
+  <step name="Biaojichuancidian" chanesename="标记穿刺点">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>摆体位</navigation>
+  </step>
+  <step name="CCDisinfection" chanesename="消毒">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>消毒</navigation>
+	</step>
+  <step name="Pujin" chanesename="铺巾">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>铺巾</navigation>
+  </step>
+  <step name="VerifyNarcotic" chanesename="核对麻醉药">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>局麻</navigation>
+  </step> 
+  <step name="DrawNarcotic" chanesename="抽吸麻药">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>局麻</navigation>
+  </step> 
+ <step name="HitPichu" chanesename="局麻">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>局麻</navigation>
+  </step>
+  <step name="Chuanci" chanesename="穿刺针穿刺">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>抽取胸水</navigation>
+  </step>
+  <step name="ChouShui" chanesename="抽取胸水">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>抽取胸水</navigation>
+  </step>
+  <step name="liuqubiaoben" chanesename="留取标本">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>抽取胸水</navigation>
+  </step>
+  <step name="biaobenbiaoji" chanesename="标本标记">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>抽取胸水</navigation>
+  </step>
+  <step name="bazhen" chanesename="拔针">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>抽取胸水</navigation>
+  </step>
+  <step name="SterilizingPoint" chanesename="消毒过穿刺点">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+  <!--
+  <step name="Kouzhen" chanesename="按压穿刺点">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+
+  <step name="Kouzhen" chanesename="胶布固定">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+    -->
+  <step name="Chedongjin" chanesename="撤洞巾">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+    <!--
+  <step name="Kouzhen" chanesename="洗手">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+    -->
+  <step name="Qushushitiwei" chanesename="协助患者取舒适体位">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+  <step name="PostoperativelyHandle" chanesename="按压等操作">
+	<auto>0</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+   <!--
+  <step name="Kouzhen" chanesename="嘱咐患者">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+  <step name="Kouzhen" chanesename="标本送检">
+  <auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+  <step name="Kouzhen" chanesename="记录">
+  <auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>术后处理</navigation>
+  </step>
+  -->
+</main>

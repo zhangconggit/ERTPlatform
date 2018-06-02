@@ -7,6 +7,7 @@ public class UToogleItem : UPageBase
 {
     UImage background;
     UImage checkImage;//选中
+    public CEvent<bool> OnChange = new CEvent<bool>();
 
     string strimage;
     public UToogleItem(string imagesrc, Rect rect)
@@ -27,11 +28,32 @@ public class UToogleItem : UPageBase
 
         checkImage.rect = rect;
 
-        gameObejct.AddComponent<Toggle>();
+        Toggle tog = gameObejct.AddComponent<Toggle>();
         gameObejct.GetComponent<Toggle>().graphic = checkImage.gameObejct.GetComponent<Image>();
+        tog.onValueChanged.AddListener((bl) => { OnChange.Invoke(bl); });
     }
+    public void LoadSelectedImage(string path)
+    {
+        checkImage.LoadImage(path);
+    }
+    public bool selected
+    {
+        get
+        {
+            return gameObejct.GetComponent<Toggle>().isOn;
+        }
+        set
+        {
+            gameObejct.GetComponent<Toggle>().isOn = value;
+        }
 
-    public string getimage(){
+    }
+    public string getimage()
+    {
         return strimage;
+    }
+    public void SetGroup(ToggleGroup group )
+    {
+        gameObejct.GetComponent<Toggle>().group = group;
     }
 }

@@ -5,7 +5,6 @@ using CFramework;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-using IDataComponentDLL;
 
 public class TimeManager : UIManager
 {
@@ -85,7 +84,7 @@ public class TimeManager : UIManager
     {
         if (startTime == false)
         {
-            IDataComponent.GetInstance().addStartTime();
+            //IDataComponent.GetInstance().addStartTime();
             f_time = 0;
             startTime = true;
             isCountdown = !abs;

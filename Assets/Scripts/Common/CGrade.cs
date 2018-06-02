@@ -4,7 +4,6 @@ using System.Collections.Generic;//C# 包中的类
 using System.Xml;
 using System.Linq;
 using System;
-using IDataComponentDLL;
 
 
 public class CGrade
@@ -184,7 +183,7 @@ public class CGrade
         ResultsScore = 0;
         DicGradeList.Clear();
         GradeList.Clear();
-        IDataComponent.GetInstance().addStartTime();
+        //IDataComponent.GetInstance().addStartTime();
         VedioStep.Clear();
         videoStepNumber = -1;
         isCommitScore = false;
@@ -308,10 +307,10 @@ public class CGrade
             return;
         getGradList();//补充未操作项
         
-        IDataComponent.GetInstance().addScoreSheetCode(GradeTableId);
+        //IDataComponent.GetInstance().addScoreSheetCode(GradeTableId);
         foreach (string str in DicGradeList.Keys)
         {
-            IDataComponent.GetInstance().addScoreItem(str, DicGradeList[str]);
+            //IDataComponent.GetInstance().addScoreItem(str, DicGradeList[str]);
         }
         StepManager.Instance.DebugOperationSeq();//打印顺序错误信息
         CsScoreManager.Instance.CommitScore();

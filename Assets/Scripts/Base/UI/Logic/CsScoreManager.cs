@@ -4,7 +4,6 @@ using System;
 using UnityEngine.UI;
 using CFramework;
 using System.Collections.Generic;
-using IDataComponentDLL;
 
 public class CsScoreManager : MonoBehaviour
 {
@@ -194,14 +193,14 @@ public class CsScoreManager : MonoBehaviour
 
         gameObject.SetActive(true);
         this._CurrentProcess = process;
-        IDataComponent.GetInstance().addScoreSheetCode(this.scoreSheetCode);
-        foreach (KeyValuePair<string, float> item in score)
-        {
-            IDataComponent.GetInstance().addScoreItem(item.Key, item.Value, 5f, true);
-            Debug.Log("-----CFrame-->>>评分:" + item.Key + "," + item.Value);
-        }
-        IDataComponent.GetInstance().AddSubmitListen(new IDataComponent.ReturnDelegate(this.IECommit));
-        IDataComponent.GetInstance().sendScoreData(Config.webIp, true);
+        //IDataComponent.GetInstance().addScoreSheetCode(this.scoreSheetCode);
+        //foreach (KeyValuePair<string, float> item in score)
+        //{
+        //    IDataComponent.GetInstance().addScoreItem(item.Key, item.Value, 5f, true);
+        //    Debug.Log("-----CFrame-->>>评分:" + item.Key + "," + item.Value);
+        //}
+        //IDataComponent.GetInstance().AddSubmitListen(new IDataComponent.ReturnDelegate(this.IECommit));
+        //IDataComponent.GetInstance().sendScoreData(Config.webIp, true);
         this.text.transform.SetAsLastSibling();
         root.transform.SetAsLastSibling();
         this.text.GetComponent<Text>().text += "成绩数据提交中...";
@@ -209,31 +208,31 @@ public class CsScoreManager : MonoBehaviour
 
     public void reCommit()
     {
-        IDataComponent.GetInstance().sendScoreData(Config.webIp);
+        //IDataComponent.GetInstance().sendScoreData(Config.webIp);
     }
 
-    void IECommit(ReturnDataStatus re)
-    {
-        string text = "";
-        if (re.Code == "0")
-        {
-            {
-                text = "提交完成！";
-            }
-            IDataComponent.GetInstance().resetScoreData();
-            this.onCommitFinish.Invoke("Ok");
-        }
-        else
-        {
-            text = "由于网络原因，提交成绩出现异常";
-            Debug.Log("-----CFrame-->>>**成绩提交失败:\n\t" + re.Desc + "提交成绩数据");
-            this.onCommitFinish.Invoke("Error");
-        }
-        this.root.gameObejct.SetActive(false);
-        UMessageBox.Show("提示", text, "确定", () =>
-        {
-            this.onClickOkButton.Invoke();
-        });
-        IDataComponent.GetInstance().RemoveSubmitListen(IECommit);
-    }
+    //void IECommit(ReturnDataStatus re)
+    //{
+    //    string text = "";
+    //    if (re.Code == "0")
+    //    {
+    //        {
+    //            text = "提交完成！";
+    //        }
+    //        IDataComponent.GetInstance().resetScoreData();
+    //        this.onCommitFinish.Invoke("Ok");
+    //    }
+    //    else
+    //    {
+    //        text = "由于网络原因，提交成绩出现异常";
+    //        Debug.Log("-----CFrame-->>>**成绩提交失败:\n\t" + re.Desc + "提交成绩数据");
+    //        this.onCommitFinish.Invoke("Error");
+    //    }
+    //    this.root.gameObejct.SetActive(false);
+    //    UMessageBox.Show("提示", text, "确定", () =>
+    //    {
+    //        this.onClickOkButton.Invoke();
+    //    });
+    //    IDataComponent.GetInstance().RemoveSubmitListen(IECommit);
+    //}
 }

@@ -8,7 +8,7 @@ public class Model_Tweezer : ModelBase {
 
     Vector3 m_normarl = new Vector3();
 
-    float m_Length = 0.1f;
+    float m_Length = 0.0967967f;
     float x_rotate = 0;
     float y_rotate = 0;
     private GameObject m_mianqiu = null;
@@ -44,7 +44,7 @@ public class Model_Tweezer : ModelBase {
         m_point = point;
         m_normarl = normal;
 
-        ModelCtrol.Instance.setModelsOnNormalline(modelObject, normal, new Vector3(0, 0, 1), 0);
+        ModelCtrol.Instance.setModelsOnNormalline(modelObject, normal, new Vector3(0, 0, -1), 0);
         
         ResetPos();
     }

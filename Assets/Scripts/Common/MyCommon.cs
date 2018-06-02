@@ -190,7 +190,8 @@ public class MethodMaker
         }
         catch (Exception ex)
         {
-            Debug.Log(ex);
+            Debug.Log(typeName+"创建失败！"+ex);
+            throw;
         }
         return obj;
     }

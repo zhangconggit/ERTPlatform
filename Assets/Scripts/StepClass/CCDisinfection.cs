@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using CFramework;
 
+/// <summary>
+/// 消毒
+/// </summary>
 public class CCDisinfection : StepBase
 {
     //标记点
@@ -27,45 +30,58 @@ public class CCDisinfection : StepBase
     bool isSameDirection = true;//是否同方向-不用了
 
     int forwardDirection = 0;//上一方向
+    UToogleItem mianqian;
 
-
-    Color mainColorExit = new Color(1, 1, 1);
+    Color mainColorExit = new Color(143 / 255.0f, 143 / 255.0f, 143 / 255.0f);
     Color mainColorEnter = new Color(143 / 255.0f, 143 / 255.0f, 143 / 255.0f);
 
     //消毒层次
     int index = 0;
+
+    bool hasTweezer = false;
+
+    /// <summary>
+    /// 棉球是否被使用
+    /// </summary>
+    bool isUse = false;
+
+    /// <summary>
+    /// 重复消毒
+    /// </summary>
+    bool isRep = false;
 
     //不同层次消毒的颜色
     Color[] disinfectionColor = new Color[] { new Color(1, 228 / 255.0f, 159 / 255.0f, 1), new Color(1, 202 / 255.0f, 66 / 255.0f, 1), new Color(1, 188 / 255.0f, 13 / 255.0f, 1) };
 
     public CCDisinfection()
     {
+        //string []pos = fileHelper.ReadIni(GetType().Name, "camerapos", "StepConfig").Split(',');
+        //cameraEnterPosition = new Vector3(float.Parse(pos[0]), float.Parse(pos[1]), float.Parse(pos[2]));
+
         if (CGlobal.productName == "xqcc")
         {
             cameraEnterPosition = new Vector3(-0.32f, 0.75f, 0.34f);
             cameraEnterEuler = new Vector3(11.6962f, 147.2081f, 354.9553f);
-            man = ModelCtrol.Find("chest_body-new/chest_body");
         }
         else if (CGlobal.productName == "yzcc")
         {
             cameraEnterPosition = new Vector3(0.345f, 0.765f, -1.643f);
             cameraEnterEuler = new Vector3(0, -105.0465f);
-            man = ModelCtrol.Find("lumbar_body-new/lumbar_adult_body");
         }
         else if (CGlobal.productName == "fqcc")
-        { 
+        {
             cameraEnterPosition = new Vector3(-0.517f, 1.015f, -1.965f);
             cameraEnterEuler = new Vector3(62.4794f, 110.2238f, 18.0929f);
-            man = ModelCtrol.Find("fuchuanPeople/abdo_body");
+            //man = ModelCtrol.Find("fuchuanPeople/abdo_body");
         }
         else if (CGlobal.productName == "gscc")
         {
             cameraEnterPosition = new Vector3(-0.632f, 0.87f, -2.03f);
             cameraEnterEuler = new Vector3(30.70366f, 91.88552f, 9.891573f);
-            man = ModelCtrol.Find("fuchuanPeople/abdo_body");
+            // man = ModelCtrol.Find("fuchuanPeople/abdo_body");
         }
-        
 
+        man = ModelCtrol.Find(fileHelper.ReadIni("Main", "manmodel", "StepConfig"));
         //target = man.transform.Find("pos").gameObject;
         tweezer = Model_Tweezer.Instance;
         texturePoint = man.GetComponent<MisTexturePoint.CTexturePoint>();
@@ -74,38 +90,41 @@ public class CCDisinfection : StepBase
         tweezer.EnabledTweezel(false);
         texturePoint.enabled = false;
 
-        UPageButton mianqian = CreateUI<UPageButton>();
+        mianqian = CreateUI<UToogleItem>("tweezers_plestic", new Rect(-150, 0, 200, 200));
         mianqian.SetAnchored(AnchoredPosition.right);
-        mianqian.rect = new Rect(-150, 0, 200, 200);
-        mianqian.LoadSprite("cotton_ball");
-        mianqian.LoadPressSprite("cotton_ball");
+        mianqian.LoadSelectedImage("tweezers_plestic_h");
+        mianqian.OnChange.AddListener(onNieziChange);
 
+        UPageButton lajitong = CreateUI<UPageButton>();
+        lajitong.SetAnchored(AnchoredPosition.bottom_left);
+        lajitong.rect = new Rect(150, -10, 200, 200);
+        lajitong.LoadSprite("lajitong");
+        lajitong.LoadPressSprite("lajitong");
+        lajitong.onClick.AddListener(OnLajitong);
+        AddScoreItem("10014191");
     }
 
     public override void EnterStep(float cameraTime = 1)
     {
+        hasTweezer = false;
         base.EnterStep(cameraTime);//调用此接口方能计数
-        Debug.Log("进入步骤：" + GetType().Name);
-        string ste =fileHelper.ReadIni(GetType().Name, "test", "StepConfig");
-        Debug.Log("test=" + ste);
+        RemoveScoreItem("10014191");
     }
 
     public override void StepFinish()
     {
         base.StepFinish();
-        Debug.Log("退出步骤：" + GetType().Name);
-        //texturePoint.resetMaterial(markPoint, new Color(140 / 255.0f, 28 / 255.0f, 146 / 255.0f), 100, 3);
+        niezi(false);
+        if(!IsExistCode("10014190") && !IsExistCode("10014193"))
+            AddScoreItem("10014192");
+        AddScoreItem("10014200");
     }
     public override void MouseClickModel(RaycastHit obj)
     {
         base.MouseClickModel(obj);
-        //Debug.Log(obj.point);
-        Model_Tweezer.Instance.SetTweezerPos(obj.point, obj.normal);
-        ////Vector3 moDir = new Vector3(0, 0, 0);
-        //ModelCtrol.Instance.setModelsOnNormalline(Model_Tweezer.Instance.modelObject, obj.normal, Model_Tweezer.Instance.GetNormorl(), 0);
-        //Model_Tweezer.Instance.modelObject.transform.position = obj.point + obj.normal* Model_Tweezer.Instance.GetLength();
-        ////Model_Tweezer.Instance.SetTweezerPos();
     }
+
+
     //设置开始状态
     public override void StepStartState()
     {
@@ -125,15 +144,14 @@ public class CCDisinfection : StepBase
     public override void StepEndState()
     {
         base.StepEndState();
-        //AnimPlay.mInstance.PlayWearGolve(false);
         tweezer.EnabledTweezel(false);
         texturePoint.enabled = true;
-        //texturePoint.resetMaterial();
+        
         markPoint = CGlobal.PunctureTexturePoint;//new Vector2(741, 393);
         texturePoint.resetMaterial(markPoint, texturePoint.areaColor, 100, 3);
 
         texturePoint.enabled = false;
-       // OnClickModel.Instance.SkinLucency(false);
+        // OnClickModel.Instance.SkinLucency(false);
 
         if (texturePoint.isExistAlbedo2())
         {
@@ -158,7 +176,7 @@ public class CCDisinfection : StepBase
         }
         texturePoint.enabled = true;
 
-        markPoint = CGlobal.PunctureTexturePoint;//new Vector2(741, 393);
+        markPoint = Model_PunctureInfo.Instance.m_Punctureuv;//new Vector2(741, 393);
         texturePoint.correctionMarkPoint(markPoint, texturePoint.areaColor, 100, 3);//130
         VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "select_nie_zi", true);
         AddScoreItem("2302449");
@@ -167,46 +185,62 @@ public class CCDisinfection : StepBase
     public override void StepUpdate()
     {
         base.StepUpdate();
-        if(Input.GetMouseButton(0))
+        if (hasTweezer)
         {
             Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;//射线的终点
             if (Physics.Raycast(_ray, out hit))
             {
-                if(hit.collider.name=="")
+                if (hit.collider.name == man.name)
                 {
-
+                    Model_Tweezer.Instance.SetTweezerPos(hit.point, hit.normal);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (isUse)
+                            isRep = true;
+                        isUse = true;
+                    }
                 }
             }
         }
-        
-
-        //if(Input.GetKeyDown(KeyCode.A))
-        //{
-        //    Model_Tweezer.Instance.Insert(0.02f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    Model_Tweezer.Instance.Insert(-0.02f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    Model_Tweezer.Instance.RotateY(2f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-        //    Model_Tweezer.Instance.RotateY(-2f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    Model_Tweezer.Instance.RotateX(2f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.LeftArrow))
-        //{
-        //    Model_Tweezer.Instance.RotateX(-2f);
-        //}
     }
-    //镊子棉球
+
+    protected void onNieziChange(bool bl)
+    {
+        if (bl)
+        {
+            if (hasTweezer == false)
+            {
+                niezi(bl);
+                hasTweezer = true;
+            }
+
+        }
+        else
+        {
+            if(hasTweezer)
+                mianqian.selected = true;
+        }
+
+    }
+
+    /// <summary>
+    /// 点击垃垃圾桶
+    /// </summary>
+    protected void OnLajitong()
+    {
+        if(hasTweezer)
+        {
+            hasTweezer = false;
+            niezi(false);
+            mianqian.selected = false;
+        }
+    }
+   
+    /// <summary>
+    /// 镊子棉球 改变状态
+    /// </summary>
+    /// <param name="isClick"></param>
     public void niezi(bool isClick)
     {
         tweezer.EnabledTweezel(isClick);
@@ -222,25 +256,27 @@ public class CCDisinfection : StepBase
                 setColor(disinfectionColor[index]);
             if (index == 0)
             {
-                AddScoreItem("2302300");
+                //AddScoreItem("2302300");
                 texturePoint.resetDrawContent();
                 texturePoint.setAreaByPoints(markPoint, 130);//150
                 VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "start_sterilize", true);
             }
             else if (index == 1)
             {
-                AddScoreItem("2302340");
+                //AddScoreItem("2302340");
                 texturePoint.setAreaByPoints(markPoint, 130 * 10 / 15);//150
             }
             else if (index == 2)
             {
-                AddScoreItem("2302380");
+                //AddScoreItem("2302380");
                 texturePoint.setAreaByPoints(markPoint, 130 * 8 / 15);//150
             }
         }
         else
         {
             texturePoint.EnableCheckThread(false);//closeLeaveWhite();
+            isUse = false;
+            isRep = false;
         }
     }
     //撤销步骤
@@ -249,14 +285,6 @@ public class CCDisinfection : StepBase
         texturePoint.resetDrawContent();
         tweezer.resetLocalModelTran();
         index = 0;
-    }
-
-    //视角控制
-    public void ViewCtl(bool isClick)
-    {
-        texturePoint.enabled = false;
-        niezi(false);//ModelCtrol.Instance.EnabledTweezers(tweezer,false);
-        ModelCtrol.Instance.EnabledCameraRotate(isClick, target);
     }
 
     //消毒错误 撤销
@@ -294,69 +322,37 @@ public class CCDisinfection : StepBase
     {
         if (index == 0)
         {
-            if (!IsExistCode("2302320") && !IsExistCode("2302321") && !IsExistCode("2302322"))
+            if (!IsExistCode("10014130") && !IsExistCode("10014131"))
             {
-                float dis = texturePoint.getStartDistance() * 15 / 130;
-                Debug.Log("Dis=" + dis);
-                if (dis <= 1)
+                if (re)
                 {
-                    AddScoreItem("2302320");
-                }
-                else if (dis > 1 && dis <= 3)
-                {
-                    AddScoreItem("2302321");
+                    AddScoreItem("10014131");//消毒有留白
                 }
                 else
                 {
-                    AddScoreItem("2302322");
+                    AddScoreItem("10014130");//消毒无留白
                 }
             }
         }
         else if (index == 1)
         {
-            if (!IsExistCode("2302360") && !IsExistCode("2302361") && !IsExistCode("2302362"))
+            if (!IsExistCode("10014160") && !IsExistCode("10014171"))
             {
-                float dis = texturePoint.getStartDistance() * 15 / 130;
-                if (dis <= 1)
+                if (re)
                 {
-                    AddScoreItem("2302360");
-                }
-                else if (dis > 1 && dis <= 3)
-                {
-                    AddScoreItem("2302361");
+                    AddScoreItem("10014160");//消毒有留白
                 }
                 else
                 {
-                    AddScoreItem("2302362");
+                    AddScoreItem("10014171");//消毒无留白
                 }
             }
         }
-        else if (index == 2)
-        {
-            if (!IsExistCode("2302390") && !IsExistCode("2302391") && !IsExistCode("2302392"))
-            {
-                float dis = texturePoint.getStartDistance() * 15 / 130;
-                if (dis <= 1)
-                {
-                    AddScoreItem("2302390");
-                }
-                else if (dis > 1 && dis <= 3)
-                {
-                    AddScoreItem("2302391");
-                }
-                else
-                {
-                    AddScoreItem("2302392");
-                }
-            }
-        }
+
         if (re)
         {
             isNoLeaveWhite = false;
-            //Debug.Log("语音：消毒区域有留白");
-            if (IsExistCode("2302430"))
-                RemoveScoreItem("2302430");
-            AddScoreItem("2302431");
+            //Debug.Log("语音：消毒区域有留白");;
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeBlank", true);
             //texturePoint.writeLeaveNote();
             resetDraw();
@@ -381,6 +377,21 @@ public class CCDisinfection : StepBase
     {
         if (re)
         {
+            if (index == 0)
+            {
+                if (!IsExistCode("10014111"))
+                {
+                    AddScoreItem("10014110");
+                }
+
+            }
+            else if (index == 1)
+            {
+                if (!IsExistCode("10014161"))
+                {
+                    AddScoreItem("10014160");
+                }
+            }
             isInRegion = true;
             // Debug.Log("范围内");
             if (isNoLeaveWhite && isFromInToOut && isSameDirection)
@@ -388,6 +399,7 @@ public class CCDisinfection : StepBase
                 Debug.Log("首次消毒完成");
                 exchangeLevel();
             }
+            
         }
         else
         {
@@ -395,24 +407,17 @@ public class CCDisinfection : StepBase
             //Debug.Log("范围过大");
             if (index == 0)
             {
-                if (!IsExistCode("2302330"))
+                if (!IsExistCode("10014110"))
                 {
-                    AddScoreItem("2302333");
+                    AddScoreItem("10014111");
                 }
 
             }
             else if (index == 1)
             {
-                if (!IsExistCode("2302370"))
+                if (!IsExistCode("10014160"))
                 {
-                    AddScoreItem("2302373");
-                }
-            }
-            else if (index == 2)
-            {
-                if (!IsExistCode("2302410"))
-                {
-                    AddScoreItem("2302413");
+                    AddScoreItem("10014161");
                 }
             }
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeRadiusBigError", true);
@@ -425,6 +430,21 @@ public class CCDisinfection : StepBase
     {
         if (re)
         {
+            if (index == 0)
+            {
+                if (!IsExistCode("10014101"))
+                {
+                    AddScoreItem("10014100");
+                }
+
+            }
+            else if (index == 1)
+            {
+                if (!IsExistCode("10014151"))
+                {
+                    AddScoreItem("10014150");
+                }
+            }
             isFromInToOut = true;
             // Debug.Log("从里向外");
             if (isNoLeaveWhite && isInRegion && isSameDirection)
@@ -432,18 +452,26 @@ public class CCDisinfection : StepBase
                 Debug.Log("首次消毒完成");
                 exchangeLevel();
             }
+            
         }
         else
         {
-            isFromInToOut = false;
-            //if (CGlobal.projectName != ProjectName.腹腔穿刺)
-            //{
-            //    if (IsExistCode("2302420"))
-            //        RemoveScoreItem("2302420");
-            //    AddScoreItem("2302421");
-            //}
-            //Debug.Log("从外向里");
+            if (index == 0)
+            {
+                if (!IsExistCode("10014100"))
+                {
+                    AddScoreItem("10014101");
+                }
 
+            }
+            else if (index == 1)
+            {
+                if (!IsExistCode("10014150"))
+                {
+                    AddScoreItem("10014151");
+                }
+            }
+            isFromInToOut = false;
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeDirectionError", true);
             niezi(false);
             resetDraw();
@@ -518,50 +546,34 @@ public class CCDisinfection : StepBase
         //     setColor(disinfectionColor[index]);
         if (index == 1)
         {
-            RemoveScoreItem("2302449");
-            AddScoreItem("2302441");
-            if (!IsExistCode("2302333"))
-            {
-                AddScoreItem("2302330");
-            }
+
+            if(isRep)
+                AddScoreItem("10014141");
+            else
+                AddScoreItem("10014140");
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeSecond", true);
         }
+
         else if (index == 2)
         {
-            RemoveScoreItem("2302441");
-            AddScoreItem("2302440");
-            if (!IsExistCode("2302373"))
-            {
-                AddScoreItem("2302370");
-            }
-            VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeThird", true);
-        }
-        else if (index == 3)
-        {
-            if (!IsExistCode("2302413"))
-            {
-                AddScoreItem("2302410");
-            }
+            if (isRep)
+                AddScoreItem("10014141");
+            else
+                AddScoreItem("10014140");
             //index = 0;
             VoiceControlScript.Instance.AudioPlay(AudioStyle.Attentions, "SterilizeFinished", true);
-           State  = StepStatus.did;
+            State = StepStatus.did;
         }
         else if (index > 3)
         {
-            RemoveScoreItem("2302440");
-            AddScoreItem("2302442");
+            //RemoveScoreItem("2302440");
+            //AddScoreItem("10014193");
         }
-        //if (CGlobal.projectName != ProjectName.腹腔穿刺)
+
+        //if (!IsExistCode("2302431"))
         //{
-        //    if (!IsExistCode("2302421"))
-        //        AddScoreItem("2302420", 5);
+        //    AddScoreItem("2302430");
         //}
-
-
-        if (!IsExistCode("2302431"))
-        {
-            AddScoreItem("2302430");
-        }
         texturePoint.enabled = false;
     }
 

@@ -171,6 +171,21 @@ namespace CFramework
             tweener.OnComplete(call);
         }
 
+        /// <summary>
+        /// 缩放GameObject模型
+        /// </summary>
+        public void ScaleModel(GameObject pModel, Vector3 to, float pTime, TweenCallback call, bool isWorld = false, Ease moveStyle = Ease.Linear)
+        {
+            Tween tweener;
+            if (!isWorld)
+                tweener = pModel.transform.DOScale(to, pTime);
+            else
+                tweener = pModel.transform.DOScale(to, pTime);
+            tweener.SetUpdate(true);
+            tweener.SetEase(moveStyle);
+            tweener.OnComplete(call);
+        }
+
         /// <Summary> 
         /// 平移模型-指定From和To
         /// </Summary>

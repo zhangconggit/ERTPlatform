@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ec71fd7f6e5a89045a35656d345d790b
+guid: 831e3269d8d5ced4c9b8f75b777d838f
 timeCreated: 1508838544
 licenseType: Free
 TextureImporter:
@@ -49,7 +49,6 @@ TextureImporter:
   textureType: -1
   buildTargetSettings: []
   spriteSheet:
-    serializedVersion: 2
     sprites: []
     outline: []
   spritePackingTag: 

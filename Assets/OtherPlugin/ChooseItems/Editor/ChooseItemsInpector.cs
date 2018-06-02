@@ -54,6 +54,7 @@ public class ChooseItemsInpector : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("NamePrefab"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("okIcon"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("errorIcon"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("trueIcon"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("items"), true);
         if(GUILayout.Button("Run"))
         {
@@ -75,6 +76,7 @@ public class ChooseItemsInpector : Editor
                 }
                 ui.GetComponent<soloItem>().errorIcon.GetComponent<Image>().sprite = script.errorIcon;
                 ui.GetComponent<soloItem>().okIcon.GetComponent<Image>().sprite = script.okIcon;
+                ui.GetComponent<soloItem>().tureIcon.GetComponent<Image>().sprite = script.trueIcon;
                 ui.GetComponent<soloItem>().bIsOk = script.items[i].isOk;
                 ui.GetComponent<soloItem>().textName = script.items[i].Name;
                 ui.GetComponent<soloItem>().target = script.items[i].obj;

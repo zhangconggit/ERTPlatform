@@ -60,7 +60,7 @@ public class AnimationScript : AnimationManager
         startPlay = false;
         startPlayAvtar = false;
         m_SliceTexsDic.Clear();
-        m_PlayBg = UIRoot.Instance.UIResources["zhuye-1" + "_T"] as Texture2D;
+       // m_PlayBg = UIRoot.Instance.UIResources["zhuye-1" + "_T"] as Texture2D;
     }
     /// <summary>
     /// 接收处理消息
@@ -81,7 +81,7 @@ public class AnimationScript : AnimationManager
         m_iCurFramControl = 0;
         isShow = false;
 
-        m_tPointImage = UIRoot.Instance.UIResources["qinang" + "_T"] as Texture2D; //缺数据
+        //m_tPointImage = UIRoot.Instance.UIResources["qinang" + "_T"] as Texture2D; //缺数据
 
 
 
@@ -305,16 +305,25 @@ public class AnimationScript : AnimationManager
     {
         OnPlaySpriteEnd = animEndCallBack;
         timerInterval = Mathf.Abs(speed);
-        m_iCurFram = 0;
-        m_iCurAnimation = m_SliceTexsDic[path].GetLength(1) - 1;
-        if (speed < 0)
+       
+        if (speed > 0)
         {
             m_iCurFram = m_SliceTexsDic[path].GetLength(0) - 1;
             m_iCurAnimation = 0;
             isPlayOppsite = true;
         }
+        else
+        {
+            isPlayOppsite = false;
+            m_iCurFram = 0;
+            m_iCurAnimation = m_SliceTexsDic[path].GetLength(1) - 1;
+        }
         playName = path;
         isPlaySprite = true;
+    }
+    public void InsertSprites(string name, Texture2D[,] texs)
+    {
+        m_SliceTexsDic[name] = texs;
     }
     /// <summary>
     /// 渲染逻辑

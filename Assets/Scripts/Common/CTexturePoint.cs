@@ -461,6 +461,7 @@ namespace MisTexturePoint
         void Awake()
         {
             mInstance = this;
+
             textureMap = material.mainTexture as Texture2D;
             if (textureMap == null)
             {
@@ -499,7 +500,10 @@ namespace MisTexturePoint
                 StartCoroutine("fillPixels");
             }
         }
-
+        void OnQuit()
+        {
+            material.mainTexture = textureMap;
+        }
         /// <summary>
         /// 初始化像素数组
         /// </summary>
@@ -601,8 +605,11 @@ namespace MisTexturePoint
                             // {
                             //     OnRadiusDistance(true);
                             // }
-                            if(pointList.Count>20)
-                                OnRadiusDistance(!isFromOutToIn);
+                            if (pointList.Count > 20)
+                            {
+                                if(OnRadiusDistance != null)
+                                    OnRadiusDistance(!isFromOutToIn);
+                            }
                             if (value > curretMaxRadius)
                                 curretMaxRadius = value;
                             
@@ -619,8 +626,10 @@ namespace MisTexturePoint
                 if (_judge)
                 {
                     _judge = false;
-                    OnLeaveWhite(mInstance.isLeaveWhite);
-                    OnCheckRadius(!mInstance.isRadiusError);
+                    if (OnLeaveWhite != null)
+                        OnLeaveWhite(mInstance.isLeaveWhite);
+                    if (OnCheckRadius != null)
+                        OnCheckRadius(!mInstance.isRadiusError);
                 }
                 firstCenter = Vector2.zero;
             }

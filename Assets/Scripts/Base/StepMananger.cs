@@ -103,13 +103,21 @@ public class StepManager
         foreach (var type in stepList)
         {
             //Debug.Log(type);
-            StepBase obj = MethodMaker.CreateObject(type.stepName) as StepBase;
-            if (obj != null)
+            try
             {
-                type.pStepClass = obj;
+                StepBase obj = MethodMaker.CreateObject(type.stepName) as StepBase;
+                if (obj != null)
+                {
+                    type.pStepClass = obj;
 
-                setStepNavigation(type.navigation, type.stepName);
+                    setStepNavigation(type.navigation, type.stepName);
+                }
             }
+            catch
+            {
+                throw;
+            }
+            
         }
         gEternalClass = new EternalClass();
 
@@ -404,7 +412,8 @@ public class StepManager
     /// <param name="other"></param>
     public void OnTriggerEnter(GameObject trigger, Collider collider)
     {
-        gEternalClass.OnTriggerEnter(trigger, collider);
+        if(gEternalClass != null)
+            gEternalClass.OnTriggerEnter(trigger, collider);
         if (pCurrentStep != null)
         {
             pCurrentStep.pStepClass.OnTriggerEnter(trigger, collider);
@@ -416,7 +425,8 @@ public class StepManager
     /// <param name="other"></param>
     public void OnTriggerStay(GameObject trigger, Collider collider)
     {
-        gEternalClass.OnTriggerStay(trigger, collider);
+        if (gEternalClass != null)
+            gEternalClass.OnTriggerStay(trigger, collider);
         if (pCurrentStep != null)
         {
             pCurrentStep.pStepClass.OnTriggerStay(trigger, collider);
@@ -428,7 +438,8 @@ public class StepManager
     /// <param name="other"></param>
     public void OnTriggerExit(GameObject trigger, Collider collider)
     {
-        gEternalClass.OnTriggerExit(trigger, collider);
+        if (gEternalClass != null)
+            gEternalClass.OnTriggerExit(trigger, collider);
         if (pCurrentStep != null)
         {
             pCurrentStep.pStepClass.OnTriggerExit(trigger, collider);

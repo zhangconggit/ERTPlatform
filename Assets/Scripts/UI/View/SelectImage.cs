@@ -12,7 +12,7 @@ public class SelectImage : UPageBase
 {
 
     UImage backgraundImage;
-    List<UImage> images=new List<UImage>();
+    List<UToogleItem> images=new List<UToogleItem>();
     UPageButton okButton;
     UPageButton currentButton;
     public CEvent<string> OnOkbutton = new CEvent<string>();
@@ -26,6 +26,7 @@ public class SelectImage : UPageBase
         backgraundImage = new UImage(AnchoredPosition.full);
         backgraundImage.SetParent(this);
         backgraundImage.color = new  Color(33/255,33/255,33/255,33/255);
+        backgraundImage.gameObejct.AddComponent<ToggleGroup>();
 
         okButton = new UPageButton(AnchoredPosition.bottom);
         okButton.SetParent(this);
@@ -36,26 +37,27 @@ public class SelectImage : UPageBase
         okButton.text = "确定";
         okButton.onClick.AddListener(ButtenEven);
     }
-    public void SetButtomImage(List<string> imagePath)
+    public void SetButtomImage(List<string> imagePath, List<string> afterPath)
     {
-        Rect pos = new Rect(0, 0, 400, 600);
+        Rect pos = new Rect(0, 0, 350, 600);
         int diff = 50;
         int[] ran = MyCommon.RandomRepeat(imagePath.Count);
         for (int i = 0; i < imagePath.Count; i++)
         {
 
             pos.x = i * (pos.width + diff) - (pos.width + diff) * imagePath.Count / 2 + pos.width/2 + diff/2;
-            CreatImage(imagePath[ran[i]], pos);
+            CreatImage(imagePath[ran[i]], afterPath[ran[i]], pos);
         }
     }
-    public void CreatImage(string path, Rect pos)
+    public void CreatImage(string path,string aftrer, Rect pos)
     {
-        UImage image = new UImage();
+        UToogleItem image = new UToogleItem(path,new Rect(0,0, pos.width,pos.height));
         image.SetParent(backgraundImage);
+        image.rect = pos;
         image.name = path;
         image.SetAnchored(AnchoredPosition.center);
-        image.rect = pos;
-        image.LoadImage(path);
+        image.LoadSelectedImage(aftrer);
+        image.SetGroup(backgraundImage.gameObejct.GetComponent<ToggleGroup>());
         images.Add(image);
     }
     public void SetButton(List<string> imagePathDefault, List<string> imagePath)
@@ -93,7 +95,18 @@ public class SelectImage : UPageBase
     }
     void ButtenEven()
     {
-        OnOkbutton.Invoke(currentButton.name);
+        string str = "";
+        if(currentButton != null)
+            str = currentButton.name;
+        foreach (var item in images)
+        {
+            if (item.selected)
+            {
+                str = item.gameObejct.name;
+                break;
+            }
+        }
+        OnOkbutton.Invoke(str);
     }
 }
 

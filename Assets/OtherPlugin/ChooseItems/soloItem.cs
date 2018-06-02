@@ -15,21 +15,23 @@ public class soloItem : MonoBehaviour {
     }
     public GameObject okIcon;
     public GameObject errorIcon;
+    public GameObject tureIcon;
     public bool bSelected = false;
     /// <summary>
     /// 这个物品是对的
     /// </summary>
     public bool bIsOk = true;
     public GameObject target;
-    [HideInInspector]
-    public bool NoErrorMode = false;
+    //[HideInInspector]
+    bool NoErrorMode = true;
     Vector3 startModePos = Vector3.zero;
     Vector3 startTextPos = Vector3.zero;
     [HideInInspector]
     public float speed = 1;
     public Camera LookAtCamera = null;
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         if (LookAtCamera==null)
         {
             LookAtCamera = Camera.main;
@@ -37,12 +39,18 @@ public class soloItem : MonoBehaviour {
        
         okIcon.SetActive(false);
         errorIcon.SetActive(false);
+        tureIcon.SetActive(false);
+    }
+    public void SetErrorMode(bool noerror)
+    {
+        NoErrorMode = noerror;
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -61,6 +69,8 @@ public class soloItem : MonoBehaviour {
 
         okIcon.SetActive(false);
         errorIcon.SetActive(false);
+        tureIcon.SetActive(false);
+        //tureIcon.SetActive(false);
         bSelected = false;//选中UI显示效果（打钩显示）
     }
     /// <summary>
@@ -136,22 +146,26 @@ public class soloItem : MonoBehaviour {
         UpdateImage();
         
     }
+
     public void UpdateImage()
     {
         if (bSelected)
         {
             if (NoErrorMode)
+            {
                 okIcon.SetActive(true);
+            }
             else
             {
                 okIcon.SetActive(bIsOk);
-                errorIcon.SetActive(!bIsOk);
+                //errorIcon.SetActive(!bIsOk);
             }
         }
         else
         {
             okIcon.SetActive(false);
             errorIcon.SetActive(false);
+            tureIcon.SetActive(false);
         }
     }
 }

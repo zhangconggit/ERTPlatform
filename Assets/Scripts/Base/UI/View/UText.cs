@@ -52,5 +52,9 @@ namespace CFramework
             baseText.font = ft;
             baseText.fontSize = 24;
         }
+        public float GetTxtHight()
+        {
+            return baseText.preferredHeight;
+        }
     }
 }

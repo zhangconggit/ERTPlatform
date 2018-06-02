@@ -324,4 +324,45 @@ namespace CFramework
         /// </summary>
         public string[] catalogChildStepName = new string[0];
     }
+
+    /// <summary>
+    /// 场景信息
+    /// </summary>
+    public class SceneInfo
+    {
+        /// <summary>
+        /// 病人名称
+        /// </summary>
+        public string name = "";
+        /// <summary>
+        /// 病人年龄
+        /// </summary>
+        public string age = "";
+        /// <summary>
+        /// 病人性别
+        /// </summary>
+        public PeopleSex sex = PeopleSex.男;
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string context = "";
+        /// <summary>
+        /// 要求
+        /// </summary>
+        public string demand = "";
+        /// <summary>
+        /// 医嘱
+        /// </summary>
+        public string advice = "";
+        /// <summary>
+        /// 床号
+        /// </summary>
+        public string bedNumber = "";
+    }
+
+    public enum PeopleSex
+    {
+        男 = 0,
+        女
+    }
 }

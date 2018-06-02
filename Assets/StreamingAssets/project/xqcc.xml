@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <main>
-  <step name="CCDisinfection" chanesename="打皮丘位置">
+<!--<step name="Tiaozhengtiwei" chanesename="">
 	<auto>1</auto>
-	<intotime>2</intotime>
+	<intotime>0</intotime>
 	<mustdo></mustdo>
 	<cantdo></cantdo>
-	<navigation>局部麻醉</navigation>
+	<navigation>调整体位</navigation>
+  </step>-->
+    <step name="Biaojichuancidian" chanesename="">
+	<auto>1</auto>
+	<intotime>0</intotime>
+	<mustdo></mustdo>
+	<cantdo></cantdo>
+	<navigation>标记穿刺点</navigation>
   </step>
 </main>

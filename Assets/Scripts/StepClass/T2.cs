@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 class T2 : StepBase
 {
-    LoginBase loginBase = null;
     public T2()
     {
         cameraEnterPosition = new Vector3(0.21f, 1.014f, 1.11f);

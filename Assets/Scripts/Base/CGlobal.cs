@@ -68,7 +68,9 @@ public class CGlobal  {
 
     internal static string scoresheetversion = "";
 
-    public static Vector3 PunctureTexturePoint = new Vector3(0, 0, 0);
+    internal static SceneInfo currentSceneInfo = new SceneInfo() { name="李雷", sex= PeopleSex.男, context="描述", demand = "要求" };
+
+    public static Vector3 PunctureTexturePoint = new Vector3(741, 393,0);
 }
 
 /// <summary>

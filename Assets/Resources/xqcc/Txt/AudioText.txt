@@ -1,4 +1,4 @@
-[Attentions]
+﻿[Attentions]
 chest_puncture_completed=穿刺完成，进行抽液
 ChouYe_Not_XiongQiang=在针头入进胸腔后再抽液
 Enter_Pleur_Stop_Drag=刺入胸腔，停止注药
@@ -48,6 +48,7 @@ JuMa_Done=局麻完成，进行穿刺!
 ligament_mazui_success=韧带组织麻醉完成！
 liquid_affect_tissue=针管有积液,继续注药会造成感染
 mark_a_little_offset=当前位置有偏差,在正确区域标记
+mark_a_little_offset2=当前位置获取失败,请重新标记
 mark_error_shape=请以十字进行标记
 mark_in_bone=下方为椎骨，不可穿刺
 mark_in_kidney=可能损伤肾脏,重新选择
@@ -138,12 +139,61 @@ VerticalIntoNeedle=未垂直进针
 wait_5s_hold_needle=请稳定穿刺针,助手帮您扶针
 wait_patient_stable=等待病人稳定后，再继续操作
 WearGlovesFinished= 戴手套完成，检查穿刺包器械，开始铺巾
+WearGlovesFinished2= 洗手完成，开始戴手套
+WearGlovesFinished3= 铺巾完成，开始局部麻醉
 WithoutInjectedPiQiu=倾斜针尖角度,完成打皮丘操作
 start_training=选择正确器械，开始穿刺
+adjustment_angle=抽液完成，请调整麻醉针角度
+prohibit_rotate=麻醉针已插入皮肤，请勿旋转
+puncture_error=穿刺角度错误，应小于15度并斜面向上插入
+injection_error=麻醉针未进入皮肤，请勿注射
+chooseError=选择错误，请重新选择
+ThrowGarbage=拖动洞巾到垃圾桶，松手后自动丢入垃圾桶
+ThrowGarbage_Finished=洞巾丢弃完成
+SupinePosition=点击患者，体位变成仰卧位
+SupinePosition_Finished=协助患者取舒适体位完成
+Chuanci_TooShallow=穿刺过浅
+clickBody=点击患者,选择合适体位
+check_kouzhen=在患者肩胛线上叩诊，听到由清音变实音时即为标记点
+check_chuanci=肩胛下线第7到第8肋间，选择肋骨上缘作为穿刺点
+check_pujin=铺巾前，需先洗手，戴好消毒手套
+fsxq=发生气胸
+trbq=请把白色的标签用鼠标按住并拖到正确的标本管上面
+wdkjbg=未打开夹闭关开关
+wskqz=未松开固定钳子
+wljzsq=未连接注射器
+fixed=请用胶布固定纱布
+sendover=送检完成
+adjustment_angle2=请退针调整角度，进行麻醉
+anyaEnd=已止血
+extract_anesthetic_not_enough=抽吸麻药不足，请抽取适量麻药
+openyizhuben=请打开医嘱本
+chooseneedgoods=请选择胸腔穿刺需要物品
+choosegoodsend=物品选择完成，请进行下一步操作
+chooseerrorgoods=物品选择有误，请重新选择
+Poushi_Pi=进入皮下及脂肪
+Poushi_Beikouji=进入背阔肌
+Poushi_Neiji=进入肋间内肌肉
+Poushi_Xiongqiang=进入胸腔
+SterilizingPointError=请消毒穿刺点
+SterilizingPointErrorKeep=请消毒穿刺点，并保持2秒
 
 [NurseQuestions]
 qqq=123
-
+CYHSXW=您现在有什么不舒服的吗
+whatname=你好，你叫什么名字
+Bed=你是几号床
+peihecheck=为明确诊断，需要为你进行胸穿穿刺抽液进行检查，请你配合。
+chuancizhong=穿刺中请避免剧烈咳嗽，保持体位，如有头晕、心悸、气促等及时报告。
+writename=请你仔细阅读知情同意书，无疑问后请签名。
+chuanciover=穿刺已经完成，你需要平卧休息
 
 [PatientAnswers]
 sss=233
+XBRHD=没有
+YBRHD=没有
+wangyi=王一
+three=3号
+well=好的
+good=好的
+thanks=谢谢

@@ -71,7 +71,7 @@ public class LoginBase : MonoBehaviour
         IDataComponentDLL.IDataComponent.GetInstance().setURL(Config.serverIp);
         Web = false;
        // IDataComponentDLL.IDataComponent.GetInstance().setURL(Config.sendIp);
-        IDataComponentDLL.IDataComponent.GetInstance().notifyComponentPlatform(false);
+        //IDataComponentDLL.IDataComponent.GetInstance().notifyComponentPlatform(false);
         IDataComponentDLL.IDataComponent.GetInstance().synchronizationServerTimeSystem();
 
     }
@@ -126,7 +126,7 @@ public class LoginBase : MonoBehaviour
                 if (re == "succeed")
                 {
                     startCheckLogin = false;
-                    CGlobal.user.chineseName = IDataComponentDLL.IDataComponent.GetInstance().getPcAccountChineseName();
+                    CGlobal.user.chineseName = IDataComponentDLL.IDataComponent.GetInstance().getWebAccountChineseName();
                     loadingImage.gameObject.SetActive(false);
                     StopCoroutine(loadingCoroutine);
                     StepManager.Instance.SetStepEnd();
@@ -150,7 +150,7 @@ public class LoginBase : MonoBehaviour
                     //失败 尝试服务器；
                     UnityEngine.Debug.Log("失败一次");
                     IDataComponentDLL.IDataComponent.GetInstance().setURL(Config.serverIp);
-                    IDataComponentDLL.IDataComponent.GetInstance().sendLoginData(userName.text, userPassword.text);
+                    IDataComponentDLL.IDataComponent.GetInstance().sendLogin(userName.text, userPassword.text);
                 }
                 else
                 {
@@ -214,7 +214,7 @@ public class LoginBase : MonoBehaviour
         GameObject.Find("Canvas/loginBt").GetComponent<Button>().enabled = false;
         CGlobal.user.accountName = userName.text;
         CGlobal.user.sex = "v";
-            IDataComponentDLL.IDataComponent.GetInstance().sendLoginData(userName.text, userPassword.text);
+            IDataComponentDLL.IDataComponent.GetInstance().sendLogin(userName.text, userPassword.text);
         startCheckLogin = true;
 #endif
     }
